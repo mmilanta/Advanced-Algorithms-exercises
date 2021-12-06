@@ -1,0 +1,99 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=0.9in]{geometry}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{cleveref}
+\usepackage{ifthen}
+\usepackage{rotating}
+\usepackage{tikz}
+\usepackage{caption}
+
+\SetKwInput{KwInput}{Input}                % Set the Input
+\SetKwInput{KwOutput}{Output}   
+
+\begin{document}
+\author{Marco Milanta}
+\title{Graded Homework 2, exercise 2}
+\maketitle
+% actually edit those files and create new sections if you need more. 
+
+\input{../macros}
+\section*{Maximizing Profit (25 points)}
+Given a stream of $n$ elements $x_1, \cdots, x_n \in \{1,\cdots,n\}$ all distinct (i.e., the input is a permutation). We have to choose $x_i, x_j$ with $j\geq i$ on arrival, meaning that when an element arrives, we must immediately decide if we include it in one of the two elements. The profit function is given as $x_j-x_i+1$. (Note that any sensible strategy will have $x_j-x_i+1 >0$ as we can choose $i=j=n$.)
+\begin{enumerate}
+    \item Find a deterministic algorithm that achieves competitive ratio at most $\sqrt{n}$.
+    \item Show that any randomized algorithm has competitive ratio at least $\Omega(\sqrt{n})$
+\end{enumerate}
+\section*{Solutions}
+\begin{enumerate}
+    \item We propose the following algorithm. Note that we index arrays starting from 1.
+    \begin{algorithm}[!ht]
+        \SetKwProg{Def}{def}{:}{}
+        \DontPrintSemicolon
+        \KwInput{$X\in $ permutations of $\{1,\dots,n\}$}
+        \KwOutput{$i,j, x_j-x_i+1$}
+        $\mathtt{Seen} \gets [0,\dots,0] \in \mathbb{N}^n$\;
+        $\mathtt{Missing} \gets [1,\dots,n] \in \mathbb{N}^n$\;
+        $\mathtt{ChosenElements} \gets 0$\;
+        $x_i \gets x_j \gets 0$\;
+        \For{$k \in 1, \dots, n-1$}{
+            \If{$\mathtt{ChosenElements} = 0$}{
+                $\mathtt{Missing}[X[k]] \gets 0$\;
+                $\mathtt{optFutu} \gets \max \;\mathtt{Missing}$\;
+                \If{$(\mathtt{optFutu} - X[k] + 1)\geq \sqrt{n}$}{
+                    $x_i \gets X[k]$\;
+                    $i \gets k$\;
+                    $\mathtt{ChosenElements} \gets 1$\;
+                }
+            }
+            \ElseIf{$\mathtt{ChosenElements} = 1$}{
+                \If{$X[k] = \max \; \mathtt{Missing}$}{
+                    $x_j \gets X[k]$\;
+                    $j \gets k$\;
+                    $\mathtt{ChosenElements} \gets 2$
+                }
+            }
+        }
+        \If{$\mathtt{ChosenElements} = 0$}{
+            $x_i \gets x_j \gets X[n]$\;
+            $i \gets j \gets n$\;
+        }
+        return $i,j,x_j - x_i + 1$\;
+        \caption{Online algorithm}\label{a}
+        \end{algorithm}
+        \paragraph*{Legality of the algorithm.}
+        Before analyzing the competitive ratio of this algorithm, I would like to notice that it has the correct structure. Notice these two facts:
+        \begin{itemize}
+            \item In the $k-$th iteration of the loop, we only look at $X[k]$. This means that our algorithm doesn't cheat by looking into the future. Finally, we look at the last element after the loop.
+            \item $x_i$ and $x_j$ are assigned only once, always $x_i$ before $x_j$, and they are assigned to be $X[k]$ at the $k-$th iteration. Or, at latest, after the for loop. All of this is guaranteed by the counter $\mathtt{ChosenElements}$. This means that we are respecting the constraint "when an element arrives, we must immediately decide if we include it in one of the two elements".
+        \end{itemize}
+        \paragraph*{Competitiveness of the algorithm.}
+        Now we want to analyze the performance. To do so, let $\hat i, \hat j, \hat i \leq \hat j$ be an optimal solution that maximize, $x_{\hat j}-x_{\hat i}+1$. 
+        \begin{theorem}[Algorithm \ref{a} is $\sqrt{n}$-competitive] The algorithm \ref{a} is $\sqrt{n}$-competitive against the optimal solution. Or, formally, let $i, j, \mathtt{profit}$ be the output of the algorithm \ref{a}. Let $OPT$ be the maximal profit, then, for any input
+            \begin{equation*}
+                \mathtt{profit}\sqrt{n} \geq OPT.
+            \end{equation*}
+        \end{theorem}
+        \begin{proof}
+            We divide the proof in two parts depending on the behavior of the algorithm. 
+            \paragraph*{Case 1:}(there is a $k \in {1,\dots,n-1}$ for which we enter the $\mathbf{if}$ at line $9$) Let for now $k$ be the iteration in which we enter the $\mathbf{if}$ at line $9$. One can notice that we will end up with a final cost of $\mathtt{optFutu} - X[k] + 1$. This is because we chose $x_i = X[k]$, and then we chose $x_j$ to be the maximal value among the remaining ones. We can safely find such value since we are keeping track of the missing ones $(\mathtt{optFutu})$. Once $\max \mathtt{Missing}$ will arrive, we pick it for $x_j$. Notice that we cannot miss it since we are only looking at permutations as inputs.
+
+            Using this, we get that
+            \begin{equation*}
+                \mathtt{profit}\sqrt{n} = (\mathtt{optFutu} - X[k] + 1)\sqrt{n} \stackrel{(i)}{\geq}\sqrt{n}\sqrt{n} = n \stackrel{(ii)}{\geq} OPT.
+            \end{equation*}
+            Where $(i)$ follows from the fact that we enter the $\mathbf{if}$ at line $9$, and $(ii)$ follows from the fact that maximum possible profit is $n$. In this scenario we have shown that the algorithm is $\sqrt{n}$ competitive .
+            \paragraph*{Case 2:}(we never enter the $\mathbf{if}$ at line $9$) In this scenario, our algorithm picks $x_i = x_j = n$, and our $\mathtt{profit}$ will be $1$. We now want to show that $OPT \leq \sqrt{n}$. To do so, we continue by contradiction. Assume that there are $\hat i \leq \hat j$ such that $x_{\hat j}-x_{\hat i}+1 > \sqrt{n}$. Our algorithm gets to step $k = \hat i$. Since $\hat j > \hat i$ (if $\hat j = \hat i$ then the optimal cost would be $1<\sqrt{n}$). In this step $\mathtt{optFutu} = \max \mathtt{Missing} \geq x_j$, but this yields that $\mathtt{optFutu} - X[\hat i] + 1 \geq x_j -x_i + 1 \geq \sqrt{n}$, which itself it yields that we enter the $\mathbf{if}$ at line $9$. This is however a contradiction. 
+
+            From this we have that
+            \begin{equation*}
+                \mathtt{profit}\sqrt{n} = \sqrt{n} \geq OPT.
+            \end{equation*}
+            \paragraph*{Conclusion:}We have shown that independently of which part of the algorithm triggers, we can guarantee that it outputs a $\sqrt{n}$-competitive solution
+        \end{proof}
+    \item Show that any randomized algorithm has competitive ratio at least $\Omega(\sqrt{n})$
+\end{enumerate}
+\end{document}

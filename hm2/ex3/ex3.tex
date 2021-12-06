@@ -1,0 +1,270 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=0.9in]{geometry}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{cleveref}
+\usepackage{cancel}
+\usepackage{ifthen}
+\usepackage{rotating}
+
+
+\begin{document}
+\author{Marco Milanta}
+\title{Graded Homework 2, exercise 3}
+\maketitle
+% actually edit those files and create new sections if you need more. 
+
+\input{../macros}
+\section*{Near-Additive Spanners (25 points)}
+
+In class, we discussed construction of purely multiplicative and purely additive spanners. In this exercise, we will see a construction of $(1+\epsilon,\beta)$-spanners. These spanners are called \emph{near-additive} spanners, as the multiplicative stretch is close to 1. These spanners are useful, as they give a stretch that is close to additive, but can be significantly sparser compared to purely additive spanners.
+
+In the construction we have parameters $d_1,d_2,p_1,p_2$, to be specified later.
+We have two sampled sets $S_1 \supseteq S_2$, where $S_1$ is obtained by sampling each vertex independently with probability $p_1$, and $S_2$ is obtained by sampling each vertex from $S_1$ independently with probability $p_2$.
+We say that a vertex $s \in S_1$ is $s$-heavy if it has at least $d_2$ vertices from $S_1$ in its $(\frac{1}{\epsilon} + 2)$-neighborhood. Otherwise, we say it is $s$-light.
+We have the following guarantees:
+\begin{enumerate}
+    \item Each vertex of degree at least $d_1$, has a neighbor in $S_1$ with high probability.
+    \item Each $s$-heavy vertex in $S_1$ has a vertex from $S_2$ at its $(\frac{1}{\epsilon} + 2)$-neighborhood with high probability. 
+\end{enumerate}
+
+We next assume that the above properties hold, which happens with high probability.
+We add the following edges to the spanner:
+\begin{enumerate}
+    \item We add all edges adjacent to vertices of degree at most $d_1$.
+    \item For each vertex of degree at least $d_1$, we add an edge to a neighbor in $S_1$.
+    \item We add BFS trees from all vertices in $S_2$.
+    \item For each $s$-light vertex in $S_1$ we add the shortest paths from $s$ to all vertices from $S_1$ in the $(\frac{1}{\epsilon} + 2)$-neighborhood of $s$. 
+\end{enumerate}
+
+We next analyze the size and stretch of the spanner.
+
+\begin{enumerate}
+    \item Choose values for $d_1,d_2,p_1,p_2$ such that the above properties hold with high probability, and such that the expected size of the spanner is minimized. You can assume that $\epsilon$ is a small constant. There is no need to optimize the logarithmic and constant terms in the size of spanner.
+    \item Prove that the spanner has stretch of $(1+4\epsilon,\Theta(1/\epsilon))$. You can assume that the properties discussed above hold, which happens with high probability.
+    Guidance: divide the vertices into 3 types: light, medium and heavy, where light are vertices of degree at most $d_1$, heavy are vertices of degree at least $d_1$ that have a neighbor in $S_1$ that is $s$-heavy, and medium are the rest. First analyze the stretch for pairs of vertices $u,v$, where the shortest $u-v$ path has a heavy vertex. For shortest paths that have only light and medium vertices, divide the path into segments of length at most $1/\epsilon$, and prove that in each of them we lose at most a $+4$ additive stretch.
+\end{enumerate}
+\section*{Solutions}
+\begin{enumerate}
+    \item We start with some definitions which will be useful later:
+    \begin{itemize}
+        \item $\Delta: V \to \N,\;\Delta (v) $ is the degree of node $v$.
+        \item $\Delta_{S_1}: V \to \N,\;\Delta_{S_1} (v) $ is the number of nodes which are both at least $\left(1/\epsilon + 2\right)$ away from $v$ and are in $S_1$.
+        \item $H := \{v\in V \mid \Delta (v) \geq d_1\}$
+        \item $H_{S_1} := \{v\in S_1 \mid \Delta_2 (v) \geq d_1\}$. This is indeed the set of $s$-heavy vertices.
+    \end{itemize}
+    \paragraph*{Constraints} In this part we will find some condition under which the first two properties are respected with high probability. 
+    \begin{enumerate}
+        \item Each vertex of degree at least $d_1$, has a neighbor in $S_1$ with high probability. 
+        
+        To get this we start by bounding the probability of a single vertex $v \in H$ to not have any neighbor in $S_1$. This is:
+        \begin{equation*}
+            \Pr\left(\forall u \text{ neigh. of }v, u \notin S_1\right) \stackrel{(i)}{=} \prod_{u \text{ neigh. of }v} \Pr\left(u \notin S_1\right) \stackrel{(ii)}{=} (1-p_1)^{\Delta(v)} \stackrel{(iii)}{\leq} e^{-p_1\Delta(v)} \stackrel{(iv)}{\leq} e^{-p_1d_1}
+        \end{equation*}
+        Where $(i)$ follows from the independence sampling that determinate weather a vertex is or is not in $S_1$. $(ii)$ follows from the fact that the before mentioned sampling is uniform with probability $p_1$. $(iii)$ is a well known bound that can be derived from the fact that $1-p_1 \leq e^{-p_1}$. Finally, $(iv)$ simply follows from the fact that we are assuming $v \in H$, therefore $\Delta(v)\geq d_1$.
+
+        Now, we want this probability to go to $0$ as $n$ increases. To do so we pick $p_1 \geq \frac{1}{d_1}k\log n$. This yields 
+        \begin{equation*}
+            e^{-p_1d_1} \leq e^{-\cancel{d_1}\frac{1}{\cancel{d_1}}\log(n^k)} \leq \frac{1}{n^k}
+        \end{equation*}
+        Now, as long as $k > 1$, given the choice of $p_2$, we can guarantee that the probability that every $v\in H$ has at least one neighbor in $S_1$ is high. 
+        \begin{align*}
+            \Pr\left(\forall v \in H, v \text{ has a neigh. in }S_1\right) &= 1-\Pr\left(\exists v \in H, v \text{ dosn't have a neigh. in }S_1\right) \\
+            &\stackrel{(i)}{\geq} 1 - \sum_{v\in H}\Pr\left(v \text{ doesn't have a neigh. in }S_1\right) \\
+            &\geq 1 - \# H e^{p_1d_i}\\
+            &\geq 1 - n\frac{1}{n^k}=1-\frac{1}{n^{k-1}}
+        \end{align*}
+        Where in $(i)$ we use the union bound.
+        \item Each $s$-heavy vertex in $S_1$ has a vertex from $S_2$ at its $\left(\frac{1}{\epsilon} + 2\right)$-neighborhood with high probability.
+        
+        The proof of this is very similar to the previous one. We start by analyzing a single point $v \in H_{S_1}$, and then we use the union bound to bound the total probability. 
+        \begin{align*}
+            \Pr\left(\forall u \in S_1 \mid d(v, u) \leq \frac{1}{\epsilon}+2, u \notin S_2\right)& = \prod_{u \in S_1 \mid d(v, u) \leq \frac{1}{\epsilon}+2} \Pr\left(u \notin S_2 \mid u \in S_1\right)\\
+            & = (1-p_2)^{\Delta_{S_1}(v)} \\
+            & \leq e^{-p_2\Delta_{S_1}(v)} \leq e^{-p_2d_2}
+        \end{align*}
+        To justify the steps here one can look at the analogous for condition (a). Now we pick $p_2 \geq \frac{1}{d_2}k\log n$, which yields $e^{-p_2d_2}\leq \frac{1}{n^k}$. Finally, as long as $k>1$, we can bound the total probability:
+            \begin{align*}
+                \Pr\left(\forall v \in H_{S_1}, \exists u_v \in S_2 \mid d(u_v,v) \leq 2+\frac{1}{\epsilon} \right) &= 1-\Pr\left(\exists v \in H_{S_1},  \forall u_v \in S_2 \mid d(u_v,v) > 2+\frac{1}{\epsilon} \right)\\
+                &\geq 1 - \sum_{v\in H_{S_1}}\Pr\left(\forall u \in S_2 \mid d(u,v) > 2+\frac{1}{\epsilon}\right) \\
+                &= 1 - \sum_{v\in H_{S_1}}\Pr\left(\forall u \in S_1 \mid d(u,v) \leq 2+\frac{1}{\epsilon}, u \notin S_2\right) \\
+                &\geq 1 - \# H_{S_1} e^{p_2d_2}\\
+                &\geq 1 - n\frac{1}{n^k}=1-\frac{1}{n^{k-1}}
+            \end{align*}
+        This concludes the constraints. To summarize, we have shown that for $k>1$, 
+        \begin{align*}
+            p_1 &= \frac{1}{d_1}k\log n\\
+            p_2 &= \frac{1}{d_2}k\log n
+        \end{align*} 
+        is enough, to have condition (a) and (b) hold with high probability. 
+
+    \end{enumerate}
+        \paragraph*{Size of the network}
+        We now first compute the cardinality of the edges in the graph generated by the algorithm, then we optimize with regard to $d_1,d_2,p_1,p_2$ to find the minimal size. We start with a graph with the same vertices as the original one and no edges. Then we add edges in the following way:
+        \begin{enumerate}
+            \item We add all edges adjacent to vertices of degree at most $d_1$.
+            
+            Here we add at most $d_1$ edges for every node. Since we have $n$ nodes in the graph, in total we add no more than $nd_1$ edges.
+            \item For each vertex of degree at least $d_1$, we add an edge to a neighbor in $S_1$.
+            
+            Here we add at $1$ edge for every node. In total, no more than $n$ edges
+            \item We add BFS trees from all vertices in $S_2$.
+            
+            Here we add $n$ edges (size of a BFS tree) for every node in $S_2$. The cardinality of $S_2$ is, on expectation, $p_1p_2n$. The expected number of nodes added in this step is $p_1p_2n^2$
+            \item For each $s$-light vertex in $S_1$ we add the shortest paths from $s$ to all vertices from $S_1$ in the $\left(\frac{1}{\epsilon} + 2\right)$-neighborhood of $s$. 
+            
+            Here we add at most $p_1n (1/\epsilon + 2)d_2$. This is because:
+            \begin{itemize}
+                \item There are $np_1$ elements in $S_1$, therefore there are no more than $np_1$ elements in $S_1$ which are also $s$-light.
+                \item Each one of those elements has no more than $d_2$ elements in it's $\left(\frac{1}{\epsilon} + 2\right)$-neighborhood. Therefore, we add no more than $p_1nd_2$ paths. Finally, each path is long at most $\left(\frac{1}{\epsilon} + 2\right)$, since the destination is in the $\left(\frac{1}{\epsilon} + 2\right)$-neighborhood. Therefore, we add no more than $p_1n (1/\epsilon + 2)d_2$ edges.
+            \end{itemize}
+    \end{enumerate}
+    Finally, the total number of edges added (in expectation) is bounded by 
+    \begin{equation*}
+        \mathcal{S} = nd_1 + n + n^2p_1p_2 + np_1d_2\left(\frac{1}{\epsilon}+2\right).
+    \end{equation*}
+    We substitute the value of $p_1$ and $p_2$ found before to guarantee that the first two conditions hold with high probability, and we get
+    \begin{equation*}
+        \mathcal{S} = nd_1 + n + n^2\frac{1}{d_1}k\log n\frac{1}{d_2}k\log n + n\frac{1}{d_1}k\log n d_2\left(\frac{1}{\epsilon}+2\right).
+    \end{equation*}
+    We now want to find the values of $d_1,d_2$ that optimize $\mathcal{S}$. To make the computation cleaner we define $\delta = k\log n$ and $\eta = \frac{1}{\epsilon} + 2$. With this notation we have
+    \begin{equation*}
+        \mathcal{S} = nd_1 + n + n^2\frac{1}{d_1d_2}\delta ^2 + n\frac{d_2}{d_1}\delta \eta.
+    \end{equation*}
+    To compute the minimum we notice that fixing $d_1$, we can write $\mathcal{S} = ad_1 + b\frac{1}{d_1} + c$ for some positive values of $a,b$ and $c$. It's easy to see that $\mathcal{S}$ is convex in $d_2$ and only has one optimum. Furthermore, $\mathcal{S}$ is differentiable. We then set $\partial_{d_2}\mathcal{S} = 0$.
+    \begin{align*}
+        \partial_{d_2}\mathcal{S} &= 0\\
+        -\frac{1}{d_2^2}\frac{n^{\cancel{2}}}{\cancel{d_1}}\delta^{\cancel{2}} + \cancel{n}\frac{1}{\cancel{d_1}}\cancel{\delta}\eta&=0\\
+        \eta &= \frac{n\delta}{d_2^2}\\
+        d_2 &= \sqrt{\frac{n\delta}{\eta}}
+    \end{align*}
+    Plugging the optimum back in $\mathcal{S}$ we get 
+    \begin{align*}
+        \mathcal{S} &= nd_1 + n + n^2\frac{\sqrt{\eta}}{d_1\sqrt{n\delta}}\delta ^2 + n\frac{\sqrt{n\delta}}{d_1\sqrt{\eta}}\delta \eta \\
+        & = nd_1 + n + n\delta \sqrt{n\delta}\frac{\sqrt{\eta}}{d_1}+ n\delta\sqrt{n\delta} \frac{\sqrt{\eta}}{d_1}\\
+        & = nd_1 + n + 2n\delta \sqrt{n\delta}\frac{\sqrt{\eta}}{d_1}.
+    \end{align*}
+    Now this is clearly convex and differentiable in $d_1$. Therefore, we set $\partial_{d_1}\mathcal{S} = 0$. 
+    \begin{align*}
+        \partial_{d_1}\mathcal{S} &= 0\\
+        \cancel{n} - 2\cancel{n}\delta\sqrt{n\delta}\sqrt{\eta}\frac{1}{d_1^2} &= 0\\
+        d_1^2 &= 2\delta \sqrt{n\delta}\sqrt{\eta} \\
+        d_1 &= \sqrt{2\delta} n^{\frac{1}{4}}\delta^{\frac{1}{4}}\eta^{\frac{1}{4}}
+    \end{align*}
+    Plugging everything back, we get
+    \begin{align*}
+        \mathcal{S} &= n\sqrt{2\delta} n^{\frac{1}{4}}\delta^{\frac{1}{4}}\eta^{\frac{1}{4}} + n + 2n\delta \sqrt{n\delta}\frac{\sqrt{\eta}}{\sqrt{2\delta} n^{\frac{1}{4}}\delta^{\frac{1}{4}}\eta^{\frac{1}{4}}}\\
+        &= \sqrt{2}n^{\frac{5}{4}}\delta^{\frac{3}{4}}\eta^{\frac{1}{4}} +n+ \sqrt{2}n^{\frac{5}{4}}\delta^{\frac{3}{4}}\eta^{\frac{1}{4}}\\
+        & \geq (2\sqrt{2} + 1)\sqrt{2}n^{\frac{5}{4}}\delta^{\frac{3}{4}}\eta^{\frac{1}{4}} \\
+        & = \sqrt{2}n^{\frac{5}{4}}\left(\log n\right)^{\frac{3}{4}}\left(\frac{1}{\epsilon}+2\right)^{\frac{1}{4}} \in \tilde O \left(n^{\frac{5}{4}}\epsilon^{-\frac{1}{4}}\right).
+    \end{align*}
+    Finally, we have found the optimal parameters:
+    \begin{itemize}
+        \item $d_1 = \sqrt{2\delta} n^{\frac{1}{4}}\delta^{\frac{1}{4}}\eta^{\frac{1}{4}}$
+        \item $d_2 = \sqrt{\frac{n\delta}{\eta}}$
+        \item $p_1 = \frac{1}{d_1}k\log n$
+        \item $p_2 = \frac{1}{d_2}k\log n$
+    \end{itemize}
+    With such parameters, the algorithm works with high probability and achieves a spanner of expected size in the order of $\tilde O \left(n^{\frac{5}{4}}\epsilon^{-\frac{1}{4}}\right)$.
+    \item For the proof of this point we take an arbitrary couple of vertices $u,v \in V$, and we show that $\tilde d(u,v) \leq (1+4\epsilon)d(u,v) + \Theta(1/\epsilon)$. Where $\tilde d$ is the distance in the spanner, $d$ is the distance in the original graph. We have two different scenarios.
+    \paragraph{Case 1:} (There is a shortest path from $u$ to $v$ that contains one heavy vertex or more)
+    We remind the definition of heavy vertex. A heavy vertex is a vertex in $H$ that has a neighbor in $H_{S_1}$. Let $w$ be a heavy vertex in a shortest path from $u$ to $v$. Let then $w'$ be one of its neighbor in $H_{S_1}$. Let then $w'' \in S_2$ be a vertex $(2+1/\epsilon)$ away from $w'$: such vertex exists w.h.p. thanks to the second constraint.
+
+    We now bound the distance from $u-w''$ and $v-w''$ in the original graph. Thanks to the triangular inequality,
+    \begin{equation*}
+        d(u,w'') \leq d(u,w) + d(w,w'') \leq d(u,w) +d(w,w') + d(w',w'') \stackrel{(i)}{\leq} d(u,w) + 3 + \frac{1}{\epsilon}
+    \end{equation*}
+    Where $(i)$ follows from the fact that $w$ and $w'$ are neighbors, and $w'$ and $w''$ are no more than $2+1/\epsilon$ away. In the same exact way we can show that $d(v,w'') \leq d(v,w) + 3 + \frac{1}{\epsilon}$. 
+
+    Now, since $w''\in S_2$. The shortest path from $w''$ to each other vertex is included in the spanner. Let's then consider the path $P$ on the spanner that starts from $u$, goes to (in the optimal way) $w''$, and ends in $v$ (in the optimal way). Since the shortest paths from $w''$ to $u$ and $v$ are included in the spanner, $P$ is a path in the spanner. Now, let $l(P)$ be the length of $P$:
+    \begin{equation*}
+        l(P) = d(u,w'') + d(v,w'') \leq d(u,w) + d(v,w) + 6 + \frac{2}{\epsilon}
+    \end{equation*}
+    Now, $w$ is part of a shortest path from $u$ to $v$, therefore $d(u,w)+d(w,v)=d(u,v)$. Furthermore, the distance on the spanner between $u$ and $v$ is at most $l(P)$, since $P$ is a path on the spanner. With all of this we have
+    \begin{equation*}
+        \tilde d (u,v) \leq l(P) = d(u,w) + d(v,w) + 6+ \frac{2}{\epsilon} = \underbrace{d(u,v)}_{\leq (1+4\epsilon)d(u,v)} + \underbrace{6+ \frac{2}{\epsilon}}_{\Theta(1/\epsilon)} \leq (1+4\epsilon)d (u,v) + \Theta(1/\epsilon).
+    \end{equation*}
+    Which concludes the proof in this case.
+    \paragraph{Case 2:} (There are no shortest paths from $u$ to $v$ which have heavy vertices inside)
+
+    First we state some useful lemmas that we will prove later,
+    \begin{lemma}\label{l1}[Long-cut] for any two medium vertices $u,v$ such that $d(u,v) \leq \frac{1}{\epsilon}$,
+        \begin{equation*}
+            \tilde d(u,v) \leq 4 + d(u,v).\qquad w.h.p
+        \end{equation*}
+    \end{lemma}
+    \begin{proof}
+        Since $u$ and $v$ are medium vertices, they are in $H$. Since they are elements of $H$ they have at least a neighbor $S_1$ with high probability. In the step (b) of the construction of our spanner we will pick one edge from both $u$ and $v$ to some vertices $w_u$ and $w_v$ in $S_1$ and link them: therefore $\tilde d (u,w_u) = \tilde d(v,w_v) = 1$.  
+        
+        Since $u$ is medium, we know that $w_u$ is $s$-light (if it was $s$-heavy, than $u$ would be heavy). 
+        
+        Now we bound $d(w_u,w_v)$ using the triangular inequality:
+        \begin{equation}\label{e1}
+            d(w_u,w_v) \leq d(w_u,u)+d(u,w_v)\leq \underbrace{d(w_u,u)}_{=1}+\underbrace{d(u,v)}_{\leq 1/\epsilon}+\underbrace{d(v,w_v)}_{=1} \leq 2 + d(u,v).
+        \end{equation}
+        Therefore, $w_v$ is in the $\left(2+\frac{1}{\epsilon}\right)$ neighborhood of $w_u$, and $w_v$ is in $S_1$: Hence, in the latest step of the spanner construction (d) we added the shortest path from $w_v$ to $w_u$. This implies that $\tilde d(w_u,w_v) = d(w_u,w_v)$. Finally, putting together and using the triangular inequality we get:
+        \begin{align*}
+            \tilde d(u,v) &\leq \tilde d(u,w_u) +\tilde d (w_u,v) & \text{triangular inequality}\\
+            &\leq \underbrace{\tilde d(u,w_u)}_{=1} +\underbrace{\tilde d (w_u,w_v)}_{=d (w_u,w_v)} + \underbrace{\tilde d(w_v,v) }_{=1} & \text{triangular inequality}\\
+            & \leq 2 + d(w_v,w_u) \leq 2+2+d(u,v) = 4+d(u,v) & \text{using the ineq. (\ref{e1})}
+        \end{align*}
+        This concludes the proof.
+    \end{proof}
+    \begin{lemma}[$1/\epsilon$ segments] For any couple of nodes $u,v$ such that $d(u,v) \leq \frac{1}{\epsilon}$, and such that there is a shortest past that doesn't have any heavy vertices in it, we have that
+        \begin{equation*}
+            \tilde d(u,v) \leq 4 + d(u,v).\qquad w.h.p
+        \end{equation*}
+    \end{lemma}
+    \begin{proof}
+        Let $u = v_0,v_1,\dots,v_m = v$ be the shortest path between $u, v$ where no heavy vertices appear. Notice that $m = d(u,v)\leq \frac{1}{\epsilon}$ by hypothesis. We now have two cases:
+        \begin{itemize}
+            \item \textbf{Case 1:} (There is at most 1 medium vertex among $v_0,v_1,\dots,v_m$) 
+            In this scenario, each edge $v_iv_{i+1}$ has at least one of the two extremes that is light. In step (a) of the construction of the spanner we pick all outgoing edges from light nodes, therefore are guaranteed that $v_iv_{i+1}$ is in the spanner for $i = 0, \dots m-1$. This yields that $v_0,v_1,\dots,v_m$ is also a path in the spanner, therefore
+            \begin{equation*}
+                \tilde d(u,v) \leq \text{length}(v_0,v_1,\dots,v_m) = m = d(u,v) \leq 4 + d(u,v)
+            \end{equation*}
+            \item \textbf{Case 2:} (There are at lest 2 medium vertex among $v_0,v_1,\dots,v_m$) 
+            Let $i$ be the smallest value for which $v_i$ is medium and $j$ be the largest. Note that all edges before $v_i$ and after $v_j$ will be part of the spanner because they are adjacent to at least one light vertex. Now
+            \begin{align*}
+                \tilde d(u,v) &\leq  \underbrace{\tilde d(u,v_i)}_{= d(u,v_i)} + \tilde d(v_i,v_j) + \underbrace{\tilde d(v_j,v)}_{= d(v_j,v)} & \text{triangular inequality}\\
+                &\leq d(u,v_i) + d(v_i,v_j) + 4 + d(v_j,v) & \text{thanks to Lemma \ref{l1}}\\
+                &= 4 + d(u,v) & \text{since $u,\dots, v_i, \dots, v_j, \dots, v$ is an optimal path}
+            \end{align*}
+            Notice that we can use lemma \ref{l1} since $d(v_i,v_j) \leq d(u,v)\leq 1/\epsilon$. Furthermore, notice that $\tilde d(u,v_i) = d(u,v_i)$ since an optimal path between $u$ and $v_i$ will be included in the spanner (same argument holds for $\tilde d(v_j,v) = d(v_j,v)$)
+        \end{itemize}
+    \end{proof}
+    Now, let's consider a shortest path from $u$ to $v$ with no heavy vertices inside. We divide it in segments of length $\lfloor 1/\epsilon \rfloor$. The total number of segments $N$ will be 
+    \begin{equation*}
+        N = \left\lceil\frac{d(u,v)}{\lfloor 1/\epsilon \rfloor}\right\rceil.
+    \end{equation*}
+    Where the ceiling is there since we cannot just take "half segment". Now,
+    \begin{equation*}
+        N =\left\lceil\frac{d(u,v)}{\lfloor 1/\epsilon \rfloor}\right\rceil \leq \left\lceil\frac{d(u,v)}{1/\epsilon - 1}\right\rceil \leq \frac{d(u,v)}{1/\epsilon - 1} + 1.
+    \end{equation*}
+    Now, assuming $\epsilon$ is small, in particular smaller than $\frac{1}{\sqrt{d(u,v)}}$ and smaller than $0.5$, we have
+    \begin{align*}
+        N &\leq \frac{d(u,v)}{1/\epsilon - 1} + 1\\
+          & = \frac{d(u,v)\epsilon}{1 - \epsilon} + 1\\
+          &=  d(u,v)\epsilon \frac{1-\epsilon+\epsilon}{1-\epsilon} + 1 \\
+          &= d(u,v)\epsilon \left(1+\frac{\epsilon}{1-\epsilon}\right) + 1\\
+          &= d(u,v)\epsilon + 1 + \frac{ d(u,v)\epsilon^2}{1-\epsilon}\\
+          &\leq d(u,v)\epsilon + 1 + \frac{ \cancel{d(u,v)}\cancel{\left(\frac{1}{\sqrt{d(u,v)}}\right)^2}}{1-\epsilon}\\
+          & \leq d(u,v)\epsilon + 1 + \frac{1}{1-0.5} = d(u,v)\epsilon + 3.
+    \end{align*}
+    Now, let $u_i$ be the starter point of the $i$-th segment and the end point of the $i-1$-th segment. $u_{N+1} = v$. We have that
+    \begin{equation*}
+        d(u,v) = \sum_{i = 1}^n d(u_i, u_{i+1}).
+    \end{equation*}
+    The equality follows since $u_i$ are part of an optimal path. Now we can use lemma 2 and we get
+    \begin{equation*}
+        d(u,v) = \sum_{i = 1}^n d(u_i, u_{i+1}) \geq \sum_{i = 1}^n (\tilde d(u_i, u_{i+1})-4) = \sum_{i = 1}^n \tilde d(u_i, u_{i+1}) - 4N.
+    \end{equation*}
+    By looking at it right to left we get
+    \begin{equation*}
+        d(u_i, u_{i+1}) \leq d(u,v) + 4N \leq d(u,v) + 4\epsilon d(u,v) + 3 \leq (1+4\epsilon)d(u,v) + 3.
+    \end{equation*}
+    Which concludes the proof.
+\end{enumerate}
+    \end{document}

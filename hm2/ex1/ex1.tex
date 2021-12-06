@@ -1,0 +1,185 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=0.9in]{geometry}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{cleveref}
+\usepackage{ifthen}
+\usepackage{rotating}
+\usepackage{cancel}
+
+
+\begin{document}
+\author{Marco Milanta}
+\title{Graded Homework 2, exercise 1}
+\maketitle
+% actually edit those files and create new sections if you need more. 
+
+\input{../macros}
+\section*{Randomized Ski Rental and Yao's Principle (25 points)}
+
+Recall that the in the lecture we demonstrated a deterministic $2$-competitive algorithm for Ski Rental and noted that no $(2 - \varepsilon$)-competitive deterministic algorithm exists for any $\varepsilon > 0$.
+\begin{enumerate}
+\item Show that, given a known input distribution (the algorithm knows in advance the probability of the season lasting exactly i days), there exists an at most $1.99$-competitive deterministic algorithm. Hint: the standard algorithm shown in class is 1-competitive if the season length is of length at most $B$.
+\item{} [Nothing to submit] Convince yourself that Yao's principle is equivalent to proving ``any randomized algorithm running on an unknown input distributions cannot be $\alpha$-competitive'' by proving ``any deterministic algorithm running on a known input distribution cannot be $\alpha$-competitive''. Conclude that, due to subtask 1, it is impossible to show a lower bound of $2$ for competitiveness of randomized Ski Rental algorithms using Yao's principle. 
+\item Yao's principle is tight under very mild technical conditions. In particular, Yao's principle is tight for Ski Rental. Demonstrate this by designing a $1.99$-competitive randomized algorithm for Ski Rental (the algorithm does not know the probabilities in advance). Note: the competitive ratio in this subtask does not need to match nor reference the one in subtask 1). Hint: since the algorithm does not know the input distribution, the worst-case input can be assumed to be deterministic.
+\end{enumerate}
+\section*{Solution}
+To make the solution easier to reed we will follow this notation:
+\begin{itemize}
+    \item $\sigma \in \mathbb{N}$ is the number of days until the end of the season. 
+    \item $\Alg_t$ is the algorithm that for the first $t$ days rent the skies, and then it buys them. 
+    \item $c(\Alg, \sigma)$ is the cost of the algorithm $\Alg$ over the input $\sigma$. 
+    \item $OPT(\sigma) = \min\{\sigma, B\}$ is the cost of the optima offline algorithm. 
+\end{itemize}
+\begin{enumerate}
+    \item First, we notice that the algorithm $\Alg_{B-1}$ yields a competitive ratio of $\frac{2B-1}{B}$. If $\sigma < B$,
+    \begin{equation*}
+        c(\Alg_{B-1}, \sigma) = \sigma = OPT(\sigma).
+    \end{equation*}
+    On the other hand, if $\sigma \geq B$, 
+    \begin{equation*}
+        c(\Alg_{B-1}, \sigma) = B+B-1 = \frac{2B-1}{B}B=\frac{2B-1}{B}OPT(\sigma).
+    \end{equation*}
+    If $B<100$, then $\frac{2B-1}{B} < 1.99$. And $\Alg_{B-1}$ is the desired algorithm. Now we focus on the case where $B > 100$. Let $\mathcal P$ be the distribution over the inputs. We define the following elements to work better with $\mathcal{P}$ distribution:
+    \begin{align*}
+        \tilde B &:= \lceil0.8B \rceil\\
+        p_1 &:= \Pr( \sigma <  \tilde B)\\
+        p_2 &:= \Pr(\tilde B \leq \sigma <  B)\\
+        p_3 &:= \Pr( \sigma \geq B)\\
+        \Lambda_1 &:= \E[\sigma \mid \sigma <  \tilde B]\\
+        \Lambda_2 &:= \E[\sigma \mid \tilde B \leq \sigma <  B].
+    \end{align*}
+    Our algorithm $\mathcal {B}$ will be either $\Alg_{\tilde B}$ or $\Alg_{B}$ depending on $\mathcal P$. In particular,
+    \begin{align}
+        \text{if:}&\qquad p_3 \leq \frac{1-\epsilon}{\epsilon} 0.8 p_2 &\text{ then: } \mathcal{R} = \Alg_{B} \label{c1}\\
+        \text{else if:}&\qquad p_3 \geq \frac{0.8(1-\epsilon)-1}{\epsilon- 0.2 + 0.01}p_2 &\text{ then: } \mathcal{R} = \Alg_{\tilde{B}}\label{c2}
+    \end{align} 
+    We now present two claims that we will prove later:
+    \begin{claim}[$\Alg_B$ completitive ratio]\label{cl1} As long as condition \ref{c1} is true, $\Alg_B$ is $2-\epsilon$ competitive.
+    \end{claim}
+    \begin{claim}[$\Alg_{\tilde B}$ completitive ratio]\label{cl2} As long as condition \ref{c2} is true, $\Alg_{\tilde B}$ is $2-\epsilon$ competitive.
+    \end{claim}
+
+    Notice that for $\epsilon = 0.1$ at least one of the two conditions must be true. The first condition becomes $p_3 \leq 7.2p_2$, the second one becomes $p_3 \geq \frac{28}{9}p_2 \simeq 3.11 p_2$. 
+
+    This yields that, fixing $\epsilon = 0.1$, $\mathcal{R}$ will be a $2-0.1 = 1.9$ competitive algorithm for any possible input distribution $\mathcal P$. The only thing left is to prove the two claims. To help us with the proof of the claims, I first want to notice that we can write $\E_{\sigma \sim \mathcal{P}}[c(\Alg_{\tilde{B}}, \sigma)]$, $\E_{\sigma \sim \mathcal{P}}[c(\Alg_B, \sigma)]$ and $\E_{\sigma \sim \mathcal{P}}[OPT(\sigma)]$ as a function of $p_1,p_2,p_3,\Lambda_1,\Lambda_2$:
+    \begin{align*}
+        \E_{\sigma \sim \mathcal{P}}[c(\Alg_{B}, \sigma)] & = \E_{\sigma \sim \mathcal{P}}[c(\Alg_{B}, \sigma)\mid \sigma < \tilde B]\Pr(\sigma < \tilde B) \\ 
+        &+ \E_{\sigma \sim \mathcal{P}}[c(\Alg_{B}, \sigma)\mid  \tilde B \leq \sigma < B]\Pr( \tilde B \leq \sigma < B) \\
+        &+\E_{\sigma \sim \mathcal{P}}[c(\Alg_{B}, \sigma)\mid \sigma \geq B]\Pr( \sigma \geq B) \\
+        &=\E_{\sigma \sim \mathcal{P}}[ \sigma \mid \sigma < B]\Pr(\sigma < B) \\ 
+        &+\E_{\sigma \sim \mathcal{P}}[\sigma \mid B \leq \sigma < B]\Pr( B\leq \sigma < B) \\
+        &+\E_{\sigma \sim \mathcal{P}}[2B \mid \sigma \geq B]\Pr( \sigma \geq B) \\
+        &= \Lambda_1 p_1 + \Lambda_2 p_2 + 2Bp_3.
+    \end{align*}
+    \begin{align*}
+        \E_{\sigma \sim \mathcal{P}}[c(\Alg_{\tilde B}, \sigma)] & = \E_{\sigma \sim \mathcal{P}}[c(\Alg_{\tilde B}, \sigma)\mid \sigma < \tilde B]\Pr(\sigma < \tilde B) \\ 
+        &+ \E_{\sigma \sim \mathcal{P}}[c(\Alg_{\tilde B}, \sigma)\mid  \tilde B \leq \sigma < B]\Pr( \tilde B \leq \sigma < B) \\
+        &+\E_{\sigma \sim \mathcal{P}}[c(\Alg_{\tilde B}, \sigma)\mid \sigma \geq B]\Pr( \sigma \geq B) \\
+        &=\E_{\sigma \sim \mathcal{P}}[ \sigma \mid \sigma < B]\Pr(\sigma < B) \\ 
+        &+\E_{B + \tilde B \sim \mathcal{P}}[\sigma \mid B \leq \sigma < B]\Pr( B\leq \sigma < B) \\
+        &+\E_{\sigma \sim \mathcal{P}}[B + \tilde B \mid \sigma \geq B]\Pr( \sigma \geq B) \\
+        &= \Lambda_1 p_1 + (B + \tilde B)p_2 + (B + \tilde B)p_3.
+    \end{align*}
+    \begin{align*}
+        \E_{\sigma \sim \mathcal{P}}[OPT(\sigma)] & = \E_{\sigma \sim \mathcal{P}}[OPT(\sigma)\mid \sigma < \tilde B]\Pr(\sigma < \tilde B) \\ 
+        &+ \E_{\sigma \sim \mathcal{P}}[OPT(\sigma)\mid  \tilde B \leq \sigma < B]\Pr( \tilde B \leq \sigma < B) \\
+        &+\E_{\sigma \sim \mathcal{P}}[OPT(\sigma)\mid \sigma \geq B]\Pr( \sigma \geq B) \\
+        &=\E_{\sigma \sim \mathcal{P}}[ \sigma \mid \sigma < B]\Pr(\sigma < B) \\ 
+        &+\E_{\sigma \sim \mathcal{P}}[\sigma \mid B \leq \sigma < B]\Pr( B\leq \sigma < B) \\
+        &+\E_{\sigma \sim \mathcal{P}}[B \mid \sigma \geq B]\Pr( \sigma \geq B) \\
+        &= \Lambda_1 p_1 + \Lambda_2 p_2 + Bp_3.
+    \end{align*}
+
+    \begin{proof}[Proof of claim \ref{cl1}]
+        We start by observing that
+        \begin{align*}
+            p_3 &\leq \frac{1-\epsilon}{\epsilon} 0.8 p_2 = \frac{1-\epsilon}{\epsilon} \frac{0.8B}{B} p_2 \leq \frac{1-\epsilon}{\epsilon} \frac{\Lambda_2}{B} p_2.
+        \end{align*}
+        Where the last inequality is true since
+        \begin{equation*}
+            \Lambda_2 = \E[\sigma \mid \tilde B \leq \sigma <  B] \geq \tilde B = \lceil0.8B \rceil \geq 0.8B.
+        \end{equation*}
+        Now, with some algebra, we can rewrite this as:
+        \begin{align*}
+            & p_3 \leq \frac{1-\epsilon}{\epsilon} \frac{\Lambda_2}{B}\\
+            \Rightarrow & B \epsilon p_3 \leq (1-\epsilon)\Lambda_2
+            p_2\\
+            \Rightarrow & 0 \leq (1-\epsilon)\Lambda_2
+            p_2 + Bp_3(1-\epsilon - 1)\\
+            \Rightarrow & Bp_3 \leq (1-\epsilon)(\Lambda_2p_2 + Bp_3)\\
+            \Rightarrow & 1-\epsilon \geq \frac{Bp_3}{\Lambda_2p_2 + Bp_3} \geq \frac{Bp_3}{\Lambda_2p_2 + Bp_3 + p_1 \Lambda_1}&\text{since $\Lambda_1 \geq 0$}\\
+            \Rightarrow & 2-\epsilon \geq 1 + \frac{Bp_3}{\Lambda_2p_2 + Bp_3 + p_1 \Lambda_1} = \frac{\Lambda_2p_2 + 2Bp_3 + p_1 \Lambda_1}{\Lambda_2p_2 + Bp_3 + p_1 \Lambda_1}\\
+            \Rightarrow & \underbrace{\Lambda_2p_2 + 2Bp_3 + p_1 \Lambda_1}_{\E_{\sigma \sim \mathcal{P}}[c(\Alg_B, \sigma)]} \leq (2-\epsilon)\underbrace{(\Lambda_2p_2 + Bp_3 + p_1 \Lambda_1)}_{\E_{\sigma \sim \mathcal{P}}[OPT(\sigma)]}\\
+            \Rightarrow & \frac{\E_{\sigma \sim \mathcal{P}}[c(\Alg_B, \sigma)]}{\E_{\sigma \sim \mathcal{P}}[OPT(\sigma)]} \leq 2-\epsilon.
+        \end{align*}
+        The final statement is the definition of a $2-\epsilon$ competitive ratio algorithm. Hence, we have concluded the proof. 
+    \end{proof}    
+    \begin{proof}[Proof of claim \ref{cl2}]
+        We start by observing that
+        \begin{equation*}
+            p_3 \geq \frac{0.8(1-\epsilon)-1}{\epsilon + 0.8 - 1 + 0.01}p_2 \geq \frac{0.8(1-\epsilon)-1}{\epsilon + 0.8 - 1 + \frac{1}{B}}p_2. 
+        \end{equation*}
+        Where this is true since we are assuming that $B > 100$. Now, with some algebra, we can rewrite this as:
+        \begin{align*}
+            & p_3 \geq \frac{0.8(1-\epsilon)-1}{\epsilon + 0.8 - 1 + \frac{1}{B}}p_2 \geq \frac{0.8(1-\epsilon)-1-\frac{1}{B}}{\underbrace{\epsilon + 0.8 - 1 + \frac{1}{B}}_{<0}}p_2 \\
+            \Rightarrow & p_3\left(\epsilon + 0.8 - 1 + \frac{1}{B}\right) \leq p_2 \left(0.8(1-\epsilon)-1-\frac{1}{B}\right)\\
+            \Rightarrow & -Bp_3(1-\epsilon) + 0.8Bp_3 + \cancel{\frac{1}{B}}\cancel{B}p_3 \leq 0.8(1-\epsilon)Bp_2 -(B+1)p_2\\
+            \Rightarrow& (B+1)p_2 + (0.8B+1)p_3 \leq (1-\epsilon)(0.8Bp_2 + Bp_3)\\
+            \Rightarrow& 1-\epsilon \geq \frac{(B+1)p_2 + (0.8B + 1)p_3}{0.8Bp_2 + Bp_3} \geq \frac{(B+1)p_2 + \tilde{B}p_3}{0.8Bp_2 + Bp_3} & \text{since }\tilde{B} = \lceil 0.8B\rceil \leq 0.8B + 1\\
+            \Rightarrow& 2-\epsilon \geq 1 +  \frac{(B+1)p_2 + \tilde{B}p_3}{0.8Bp_2 + Bp_3} \geq 1 +  \frac{(B+1)p_2  + \tilde{B}p_3}{p_1\Lambda_1 + 0.8Bp_2 + Bp_3} & \text{since }\Lambda_1 \geq 0\\
+            \Rightarrow& 2-\epsilon \geq \frac{p_1 \Lambda_1 + (B + 0.8B + 1)p_2 + (B+\tilde B)p_3}{p_1\Lambda_1 + 0.8Bp_2 + Bp_3}\\
+            \Rightarrow& 2-\epsilon \geq \frac{p_1 \Lambda_1 + (B+\tilde B)p_2 + (B+\tilde B)p_3}{p_1\Lambda_1 + 0.8Bp_2 + Bp_3} &  \text{since }\tilde{B} = \lceil 0.8B\rceil \leq 0.8B + 1 \\
+            \Rightarrow& 2-\epsilon \geq \frac{p_1 \Lambda_1 + (B+\tilde B)p_2 + (B+\tilde B)p_3}{p_1\Lambda_1 + \Lambda_2p_2 + Bp_3} &  \text{since }0.8B \leq \tilde{B} \leq \Lambda_2\\
+            \Rightarrow& \underbrace{p_1 \Lambda_1 + (B+\tilde B)p_2 + (B+\tilde B)p_3}_{\E_{\sigma \sim \mathcal{P}}[c(\Alg_{\tilde B}, \sigma)]} \leq (2-\epsilon)\underbrace{(p_1\Lambda_1 + \Lambda_2p_2 + Bp_3)}_{\E_{\sigma \sim \mathcal{P}}[OPT(\sigma)]}\\
+            \Rightarrow& \frac{\E_{\sigma \sim \mathcal{P}}[c(\Alg_{\tilde B}, \sigma)]}{\E_{\sigma \sim \mathcal{P}}[OPT(\sigma)]} \leq 2-\epsilon
+        \end{align*}
+        The final statement is the definition of a $2-\epsilon$ competitive ratio algorithm. Hence, we have concluded the proof.
+    \end{proof}
+
+    \item {}[Nothing to submit]
+    \item In the case where $B > 100$, we propose the following randomized algorithm $\mathcal{R}
+    $:
+    \begin{equation*}
+        \mathcal{R}(\sigma) = \begin{cases}
+            \Alg_B(\sigma)& w.p. \;0.5\\
+            \Alg_{\lceil 0.8B\rceil}(\sigma)& w.p. \;0.5\\
+        \end{cases}
+    \end{equation*}
+    For simplicity, we call $\tilde B = \lceil 0.8B\rceil$.
+    \paragraph{Case 1:} ($\sigma < \tilde B $) In this scenario, our algorithm yields the same output of the optimal algorithm. This yields a competitive ratio of $1$.
+    \paragraph{Case 2:} ($\tilde B \leq \sigma < B$) In this scenario, the expected cost of our algorithm is:
+    \begin{equation*}
+        \E_{\mathcal R}[c(\mathcal{R},\sigma)] =\frac{1}{2}\underbrace{\sigma}_{\mathcal R = \Alg_B} + \frac{1}{2}\underbrace{(B+\tilde B)}_{\mathcal R = \Alg_{\tilde{B}}}  \leq \frac{1}{2}B + \frac{1}{2}(B + 0.8B + 1) = \frac{2.8}{2}B + \frac{1}{2} = 1.4B + 0.5 \stackrel{(i)}{\leq} 1.5B.
+    \end{equation*}
+    Where in $(i)$ we use that $B > 100$. In this same setting, the optimal algorithm yields a result of $\sigma\geq \tilde B \geq 0.8B$. Hence, we can notice that
+    \begin{equation*}
+        \E_{\mathcal R}[c(\mathcal{R},\sigma)] \leq 1.5B = 1.875 \times 0.8B\leq 1.875 \sigma = 1.875 \,OPT(\sigma).
+    \end{equation*}
+    Therefore, in this scenario, the competitive ratio is $1.875$
+    \paragraph{Case 3:} ($\sigma \geq B$) In this scenario, the expected cost of our algorithm is:
+    \begin{equation*}
+        \E_{\mathcal R}[c(\mathcal{R},\sigma)] =\frac{1}{2}2B + \frac{1}{2}(B + \tilde B) = \frac{3}{2}B + \frac{1}{2}\tilde B \leq \frac{3}{2}B + \frac{1}{2}(0.8B +1) \leq 1.9B + 1 \stackrel{(i)}{\leq} 1.91B
+    \end{equation*}
+    Where in $(i)$ we use that $B > 100$. Whereas, the optimal algorithm yields a result of $B$. Hence, we can notice that
+    \begin{equation*}
+        \E_{\mathcal R}[c(\mathcal{R},\sigma)]  \leq 1.91B = 1.91\,OPT(\sigma).
+    \end{equation*}
+    Therefore, in this scenario, the competitive ratio is $1.91$.
+    \paragraph*{Conclusion:}
+    Since in the worst case input, the competitive ratio is $1.91$, we can write:
+    \begin{equation*}
+        \E_{\mathcal R}[c(\mathcal{R},\sigma)]  \leq \begin{cases}
+            OPT(\sigma) & \text{in case }1\\
+            1.875OPT(\sigma) & \text{in case }2\\
+            1.91OPT(\sigma) & \text{in case }3
+        \end{cases} \qquad\leq 1.91OPT(\sigma).
+    \end{equation*}
+    Hence, we have a competitive ratio of $1.91$ which is less than $1.99$. 
+    
+    Finally, if $B\leq 100$, then we use the deterministic algorithm $\Alg_{B-1}$ that achieves a competitive ratio of $\frac{2B-1}{B}$. Notice that if $B \leq 100$, then $\frac{2B-1}{B} \leq 1.99$.
+    \paragraph*{Yao's principle:} Now that we have found this algorithm, we can use Yao's principle to "solve again" point 1 without explicating the algorithm.
+\end{enumerate}
+\end{document}
