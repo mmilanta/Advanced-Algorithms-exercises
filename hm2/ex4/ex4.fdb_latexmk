@@ -1,8 +1,8 @@
 # Fdb version 3
-["pdflatex"] 1638707383 "/Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/hm2/ex4/ex4.tex" "/Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/hm2/ex4/ex4.pdf" "ex4" 1638707385
+["pdflatex"] 1638826297 "/Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/Advanced-Algo-exercises/hm2/ex4/ex4.tex" "/Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/Advanced-Algo-exercises/hm2/ex4/ex4.pdf" "ex4" 1638826299
   "../macros.tex" 1638557966 929 b022abdb10db0c3a48abd96370e2675a ""
-  "/Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/hm2/ex4/ex4.aux" 1638707384 243 499f9a8629718442ba34d247afe0df92 ""
-  "/Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/hm2/ex4/ex4.tex" 1638707383 12608 72fcf5e51f2c2f93f1aa5fc57078723c ""
+  "/Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/Advanced-Algo-exercises/hm2/ex4/ex4.aux" 1638826298 243 499f9a8629718442ba34d247afe0df92 ""
+  "/Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/Advanced-Algo-exercises/hm2/ex4/ex4.tex" 1638826296 12695 c3a88a1d7aa83c8a7b14faa5c3f8f387 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2021/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -79,11 +79,11 @@
   "/usr/local/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1616695603 5169178 a2ce6e2d73f603b690db6777d06dbccb ""
   "/usr/local/texlive/2021/texmf-var/web2c/pdftex/pdflatex.fmt" 1635778671 2724730 b91f49fa50495dbf2ab25be243f953fa ""
   "/usr/local/texlive/2021/texmf.cnf" 1616695596 577 4c1911a7228e554c6032256d3cf5567d ""
-  "ex4.aux" 1638707384 243 499f9a8629718442ba34d247afe0df92 "pdflatex"
-  "ex4.tex" 1638707383 12608 72fcf5e51f2c2f93f1aa5fc57078723c ""
+  "ex4.aux" 1638826298 243 499f9a8629718442ba34d247afe0df92 "pdflatex"
+  "ex4.tex" 1638826296 12695 c3a88a1d7aa83c8a7b14faa5c3f8f387 ""
   (generated)
-  "ex4.log"
   "ex4.pdf"
-  "/Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/hm2/ex4/ex4.log"
-  "/Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/hm2/ex4/ex4.pdf"
   "ex4.aux"
+  "/Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/Advanced-Algo-exercises/hm2/ex4/ex4.pdf"
+  "/Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/Advanced-Algo-exercises/hm2/ex4/ex4.log"
+  "ex4.log"

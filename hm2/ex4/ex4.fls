@@ -1,9 +1,9 @@
-PWD /Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/hm2/ex4
+PWD /Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/Advanced-Algo-exercises/hm2/ex4
 INPUT /usr/local/texlive/2021/texmf.cnf
 INPUT /usr/local/texlive/2021/texmf-dist/web2c/texmf.cnf
 INPUT /usr/local/texlive/2021/texmf-var/web2c/pdftex/pdflatex.fmt
-INPUT /Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/hm2/ex4/ex4.tex
-OUTPUT /Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/hm2/ex4/ex4.log
+INPUT /Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/Advanced-Algo-exercises/hm2/ex4/ex4.tex
+OUTPUT /Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/Advanced-Algo-exercises/hm2/ex4/ex4.log
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/base/article.cls
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/base/article.cls
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/base/article.cls
@@ -244,10 +244,10 @@ INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/l3backend/l3backend-pdftex.de
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
-INPUT /Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/hm2/ex4/ex4.aux
-INPUT /Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/hm2/ex4/ex4.aux
-INPUT /Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/hm2/ex4/ex4.aux
-OUTPUT /Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/hm2/ex4/ex4.aux
+INPUT /Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/Advanced-Algo-exercises/hm2/ex4/ex4.aux
+INPUT /Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/Advanced-Algo-exercises/hm2/ex4/ex4.aux
+INPUT /Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/Advanced-Algo-exercises/hm2/ex4/ex4.aux
+OUTPUT /Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/Advanced-Algo-exercises/hm2/ex4/ex4.aux
 INPUT /usr/local/texlive/2021/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 INPUT /usr/local/texlive/2021/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 INPUT /usr/local/texlive/2021/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
@@ -295,15 +295,15 @@ INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm1
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm7.tfm
 INPUT ../macros.tex
-INPUT /Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/hm2/ex4/../macros.tex
+INPUT /Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/Advanced-Algo-exercises/hm2/ex4/../macros.tex
 INPUT ../macros.tex
-INPUT /Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/hm2/ex4/../macros.tex
-INPUT /Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/hm2/ex4/../macros.tex
+INPUT /Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/Advanced-Algo-exercises/hm2/ex4/../macros.tex
+INPUT /Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/Advanced-Algo-exercises/hm2/ex4/../macros.tex
 INPUT ../macros.tex
 INPUT ../macros.tex
-INPUT /Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/hm2/ex4/../macros.tex
+INPUT /Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/Advanced-Algo-exercises/hm2/ex4/../macros.tex
 INPUT ../macros.tex
-INPUT /Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/hm2/ex4/../macros.tex
+INPUT /Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/Advanced-Algo-exercises/hm2/ex4/../macros.tex
 INPUT ../macros.tex
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
@@ -314,14 +314,14 @@ INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam1
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmti10.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm
-OUTPUT /Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/hm2/ex4/ex4.pdf
+OUTPUT /Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/Advanced-Algo-exercises/hm2/ex4/ex4.pdf
 INPUT /usr/local/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam5.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm5.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmti8.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmti7.tfm
-INPUT /Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/hm2/ex4/ex4.aux
+INPUT /Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/Advanced-Algo-exercises/hm2/ex4/ex4.aux
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb

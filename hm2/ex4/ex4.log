@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.11.1)  5 DEC 2021 13:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.11.1)  6 DEC 2021 22:31
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**"/Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/hm2/ex4/ex4.tex"
-(/Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/hm2/ex4/ex4.tex
+**"/Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/Advanced-Algo-exercises/hm2/ex4/ex4.tex"
+(/Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/Advanced-Algo-exercises/hm2/ex4/ex4.tex
 LaTeX2e <2020-10-01> patch level 4
 L3 programming layer <2021-02-18> (/usr/local/texlive/2021/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2020/04/10 v1.4m Standard LaTeX document class
@@ -151,7 +151,7 @@ File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
 File: l3backend-pdftex.def 2021-03-18 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count269
 \l__pdf_internal_box=\box50
-) (/Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/hm2/ex4/ex4.aux)
+) (/Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/Advanced-Algo-exercises/hm2/ex4/ex4.aux)
 \openout1 = `ex4.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 13.
@@ -252,17 +252,17 @@ Overfull \hbox (25.2107pt too wide) detected at line 116
 []
  []
 
-[3] [4] [5] (/Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/hm2/ex4/ex4.aux) ) 
+[3] [4] [5] (/Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/Advanced-Algo-exercises/hm2/ex4/ex4.aux) ) 
 Here is how much of TeX's memory you used:
  4382 strings out of 478994
- 76076 string characters out of 5858184
+ 76292 string characters out of 5858184
  421080 words of memory out of 5000000
  21834 multiletter control sequences out of 15000+600000
  412527 words of font info for 61 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 83i,19n,88p,518b,339s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 83i,19n,88p,542b,339s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/latxfont/line10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on "/Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/hm2/ex4/ex4.pdf" (5 pages, 185121 bytes).
+Output written on "/Users/marcomilanta/Documents/ETH/Advanced Algorithms/comp_hmw/Advanced-Algo-exercises/hm2/ex4/ex4.pdf" (5 pages, 185109 bytes).
 PDF statistics:
  88 PDF objects out of 1000 (max. 8388607)
  63 compressed objects within 1 object stream

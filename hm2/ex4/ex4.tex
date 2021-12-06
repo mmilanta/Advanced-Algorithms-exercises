@@ -146,6 +146,9 @@ In the class, it was shown that the number of minimum cuts of any unweighted gra
         \text{Number of minimum $k$-cuts} &\leq \frac{(ne)^{2k-2}}{k(k-1)^{2k-2}}\\
         & = e^{O(k)}n^{2k-2}\frac{1}{k(k-1)^{2k-2}} \leq 2^{O(k)}n^{2k-2}.
     \end{align*}
-    Where $e^{O(k)} = 2^{O(k)\log_2e} = 2^{O(k)}$, and $\frac{1}{k(k-1)^{2k-2}} \in O(1)$. This concludes the exercise. As a final note, for values of $k$ which are not very small, $\frac{1}{k(k-1)^{2k-2}}$ is much smaller than $O(1)$, and a tighter bound could be obtained by not simplifying. 
+    Where $e^{O(k)} = 2^{O(k)\log_2e} = 2^{O(k)}$, and $\frac{1}{k(k-1)^{2k-2}} \in O(1)$. This concludes the exercise. As a final note, one can notice that, $\frac{e^{2k-2}}{k(k-1)^{2k-2}}$ is bounded by a constant. A tighter bound could then be then obtained:
+    \begin{equation*}
+        \text{Number of minimum $k$-cuts} \leq C n^{2k-2} \in O(n^{2k-2})
+    \end{equation*} 
 \end{enumerate}
 \end{document}
