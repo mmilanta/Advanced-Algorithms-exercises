@@ -34,7 +34,7 @@ To make the solution easier to reed we will follow this notation:
     \item $OPT(\sigma) = \min\{\sigma, B\}$ is the cost of the optima offline algorithm. 
 \end{itemize}
 \begin{enumerate}
-    \item First, we notice that the algorithm $\Alg_{B-1}$ yields a competitive ratio of $\frac{2B-1}{B}$. If $\sigma < B$,
+    \item First, we notice that the algorithm $\Alg_{B-1}$ (note that this is just $\Alg_t$ with $t = B-1$) yields a competitive ratio of $\frac{2B-1}{B}$. If $\sigma < B$,
     \begin{equation*}
         c(\Alg_{B-1}, \sigma) = \sigma = OPT(\sigma).
     \end{equation*}
@@ -53,8 +53,8 @@ To make the solution easier to reed we will follow this notation:
     \end{align*}
     Our algorithm $\mathcal {B}$ will be either $\Alg_{\tilde B}$ or $\Alg_{B}$ depending on $\mathcal P$. In particular,
     \begin{align}
-        \text{if:}&\qquad p_3 \leq \frac{1-\epsilon}{\epsilon} 0.8 p_2 &\text{ then: } \mathcal{R} = \Alg_{B} \label{c1}\\
-        \text{else if:}&\qquad p_3 \geq \frac{0.8(1-\epsilon)-1}{\epsilon- 0.2 + 0.01}p_2 &\text{ then: } \mathcal{R} = \Alg_{\tilde{B}}\label{c2}
+        \text{if:}&\qquad p_3 \leq \frac{1-\epsilon}{\epsilon} 0.8 p_2 &\text{ then: } \mathcal{B} = \Alg_{B} \label{c1}\\
+        \text{else if:}&\qquad p_3 \geq \frac{0.8(1-\epsilon)-1}{\epsilon- 0.2 + 0.01}p_2 &\text{ then: } \mathcal{B} = \Alg_{\tilde{B}}\label{c2}
     \end{align} 
     We now present two claims that we will prove later:
     \begin{claim}[$\Alg_B$ completitive ratio]\label{cl1} As long as condition \ref{c1} is true, $\Alg_B$ is $2-\epsilon$ competitive.

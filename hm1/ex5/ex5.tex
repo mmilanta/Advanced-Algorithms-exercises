@@ -1,0 +1,66 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=0.9in]{geometry}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{cleveref}
+\usepackage{ifthen}
+\usepackage{rotating}
+
+
+\begin{document}
+\author{Marco Milanta}
+\title{Graded Homework 1, exercise 5}
+\maketitle
+% actually edit those files and create new sections if you need more. 
+
+\input{../macros}
+\section*{Forbidden Words (20 points)}
+We are given $n$ bits and $m$ bit strings (forbidden words) $S_1, S_2, \dots, S_m$. We say an $n$ bit string is legal if it does not contain any $S_i$ as a consecutive substring. For example, let $n=5$, and $S_1=010$, then $11101$ is a legal string, but $10101$ is not because $x_2x_3x_4 = 010$. Moreover, suppose that $x_1\cdots x_l$ is a forbidden word, then $\overline{x_1}\cdots x_k$ for $1\leq k\leq l$ are not forbidden words where $\overline{x_1}=1$ if $x_1=0$, and $\overline{x_1}=0$ if $x_1=1$. In your algorithm, you can call a procedure \textsc{LegalGenerator} that generates a uniformly random legal string given its length and a set of forbidden words. Devise a fully polynomial randomized approximation scheme (FPRAS) for estimating the total number of legal $n$ bit strings.
+
+
+%Given $m$ forbidden bit strings $S_1, S_2, \dots, S_m$, devise a fully polynomial randomized approximation scheme (FPRAS) for estimating the total number of legal $n$ bit strings. A bit string is legal if it does not contain any $S_i$ as a consecutive substring. It is guaranteed that if $S_i = x_1\cdots x_l$, then for any $1\leq k \leq \ell$, the bit string $\overline{S_i^k} = \overline{x_1}\dots x_k$ is not forbidden where $\overline{S_i^k}$ is obtained from the length $k$ prefix of $S_i$ by flipping its first bit. In your algorithm, you can call a procedure \textsc{LegalGenerator} that generates a uniformly random legal string given its length and a set of forbidden words.
+
+\paragraph{Hint.} Can you say anything in the case $k > l$?
+
+\section*{Solution}
+Let's define $L_i$ be the number of legal bit strings of length $n$ according to the forbidden words $S_1, \dots S_i$. $L_0$ will just be the number of bit strings of length $n$, which is $2^n$. $L_m$ is what we need to approximate. It's easy to see that
+\begin{equation*}
+    L_m = \underbrace{\frac{L_m}{L_{m-1}}}_{q_m}\underbrace{\frac{L_{m-1}}{L_{m-2}}}_{q_{m-1}}\dots\underbrace{\frac{L_{2}}{L_{1}}}_{q_2}\underbrace{\frac{L_1}{L_0}}_{q_1}\underbrace{L_0}_{2^n}.
+\end{equation*}
+Now, the idea is to approximate each of the $q_i$ by sampling.
+\paragraph*{Estimate $q_i$:} To estimate $q_i$ we call \textsc{LegalGenerator} generating strings legal according to $S_1,\dots,S_{i-1}$. Then we check weather the string is also legal according to $S_i$. We now compute the probability of such an event to occur
+\begin{equation*}
+    \Pr\left(\text{legal according to }S_i\mid \text{legal according to }S_1,\dots,S_{i-1}\right) = \frac{L_i}{L_{i-1}}=q_i
+\end{equation*}
+Now, we iterate this process $k$ times, and the ratio between the number of success and $k$ will be an approximation of $q_i$. Assuming $q_i\geq 1/2$, we can use Chernoff bound to show that we get that 
+\begin{align*}
+    \hat q_i := \frac{\#\text{successes}}{k} & \in [q_i (1-\tilde\epsilon), q_i(1+\tilde\epsilon)] \qquad \text{with prob. } 1-\tilde\delta\\
+    k &\geq \frac{3}{q_i\tilde\epsilon^2}\log\left(\frac{2}{\tilde\delta}\right)
+\end{align*}
+If we take $k \geq \frac{6}{\tilde\epsilon^2}\log\left(\frac{2}{\tilde\delta}\right)$, assuming that $q_i\geq 1/2$ (proven later), we can guarantee the same error with the same probability.
+\paragraph*{Combine errors:} The number of samplings we need to run to approximate $q_i\forall i$ is just $\frac{6m}{\tilde\epsilon^2}\log\left(\frac{2}{\tilde\delta}\right)$. This is polynomial in both $m, \frac{1}{\tilde\epsilon}$ and $\frac{1}{\tilde\delta}$. Let's impose that the probability to have at least one of the $q_i$ outside of the error boundary to be no more that $\delta$:
+\begin{equation*}
+    \delta \geq \Pr(\text{at least one error})\geq \sum_{i=1}^m\tilde\delta =m\tilde\delta.
+\end{equation*}
+Therefore, by taking $\tilde\delta = \frac{\delta}{m}$ we achieved the bound.
+Now, let's look at the total error assuming that all of $q_i$ are inside the required interval:
+\begin{align*}
+    \hat L_m :=2^n\prod_{i=1}^m\hat q_i &\in \left[(1-\tilde\epsilon)^m\underbrace{2^n\prod_{i=1}^m q_i}_{L_m},(1+\tilde\epsilon)^m\underbrace{2^n\prod_{i=1}^m q_i}_{L_m} \right]\\
+    &\subseteq \left[(1-2m\tilde\epsilon)L_m,(1+2m\tilde\epsilon)L_m\right]
+\end{align*}
+Therefore, if we want the error to be less than $\epsilon$, it's enough to take $\tilde\epsilon =\frac{\epsilon}{2m}$. To conclude we have an algorithm that estimates $L_m$ with $\hat L_m$ with a multiplicative error of $\epsilon$ with probability no less than $1-\delta$ that runs in $O\left(\frac{6(2m)^2}{\epsilon^2}\log\left(\frac{2m}{\delta}\right)\right)$. Now we only need to prove that $q_i\geq 1/2\forall i$. 
+\paragraph*{Prove that $q_i\geq1/2$:} We can rewrite $q_i$ as:
+\begin{align*}
+    q_i = \frac{L_i}{L_{i-1}} &= \frac{L_i}{\underbrace{\# \{\text{ legal according to } S_{1},\dots,S_{i-1}\text { and not to }S_i\}}_{\tilde{L}_{i}}+L_i}.
+\end{align*}
+If we can show that $L_i\geq \tilde{L}_{i-1}$, then we have
+\begin{equation*}
+    q_i = \frac{L_i + \tilde L_{i}- \tilde L_{i}}{\tilde L_{i}+L_i} = \underbrace{1- \underbrace{\frac{\tilde{L}_i}{\tilde L_{i}+L_i}}_{\leq 1/2}}_{\geq 1/2},
+\end{equation*}
+which is enough to conclude the proof. Now, I show that for every element in $\tilde L_i$ there is a unique corrispondent element in $L_i$. Let such element be 
+\begin{equation*}
+    e = x_1x_2\cdots x_kx_{k+1}\cdots x_{k+|S_i|}\cdots x_jx_{j+1}\cdots x_{j+|S_i|}\dots 
+\end{equation*}
+\end{document}

@@ -1,1 +1,0 @@
-{"rule":"THE_SUPERLATIVE","sentence":"^\\QWe take the for each cluster the \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q cheapest outgoing edges from each cluster to some other distinct clusters.\\E$"}

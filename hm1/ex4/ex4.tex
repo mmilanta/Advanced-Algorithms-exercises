@@ -1,0 +1,80 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=0.9in]{geometry}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{cleveref}
+\usepackage{cancel}
+\usepackage{ifthen}
+\usepackage{rotating}
+
+
+\begin{document}
+\author{Marco Milanta}
+\title{Graded Homework 1, exercise 4}
+\maketitle
+% actually edit those files and create new sections if you need more. 
+
+\input{../macros}
+\section*{Vertex Cover (15 points)}%\begin{enumerate}
+    %\item 
+    Consider the linear program that is used to 2-approximate the weighted vertex cover problem, that is we minimize $\sum_{u \in V(G)} w_u x_u$ given $x_u + x_v  \geq 1$ for every edge $uv$ and $x_u \ge 0$ for each node $u$. 
+    %You can assume that there is a polynomial time algorithm that finds an optimum solution to this linear program. 
+    Prove that there is a polynomial time algorithm that finds an optimum solution to this linear program such that it has the additional property that for every node $u$ we have $x_u \in \{0, 1/2, 1 \}$. 
+    %\item Give a 3/2 approximation algorithm for vertex cover in planar graphs. You can assume the existence of the procedure for part 1 of this problem, even if you did not solve it. 
+    %You can also assume that you have a polynomial time algorithm for 4-coloring planar graphs.
+    %\item There is an analogous LP for hypergraph vertex cover. Is it the case that if the hypergraph is $k$-uniform, there is an optimum solution with all values being equal to $i/k$?
+%\end{enumerate} \section*{Solution}
+    \section*{Solution}
+    We start by taking the valid solution that we get from linear programming, and then we transform it in a way that we get $x_u \in \{0,1/2,1\}$. To do so we create an iterative step that gets as input a valid solution, where some $x_u$ are in $\{0,1/2,1\}$ and some are not; and outputs a solution where all the $x_u$ that were inside $\{0,1/2,1\}$ in the input, will remain inside in the output; and at least one of those $x_u$ which were not inside $\{0,1/2,1\}$ in the input, will be inside $\{0,1/2,1\}$ in the output. Furthermore, the output solution will have a cost no greater than the input one. \\\\
+    If we can devise an algorithm to run such step in polynomial time, then we are done. This is because we can iterate the algorithm $n$ times, where $n$ is the number of vertices. At each iteration one more $x_u$ will be inside $\{0,1/2,1\}$. Since we do $n$ iterations, in the end, we get a solution with the same cost as the original one (minimal), and with all the $x_u\in\{0,1/2,1\}$.
+    \paragraph*{Iteration step:} The iteration step gets as input $x_u,\forall u \in V$. Let's define
+    \begin{align*}
+        \mathcal{V}_+ &= \left\{ u \in V \mid 1/2 < x_u < 1 \right\}\\
+        \mathcal{V}_- &= \left\{ u \in V \mid 0 < x_u < 1/2 \right\}
+    \end{align*}
+    Here we assume that either $\mathcal{V}_+$ or $\mathcal{V}_-$ are not empty. If they are empty, then we are in a trivial situation. This is because $x_u\notin\{0,1/2,1\} \Rightarrow x_u > 1$. But if that is the case we can just update $\hat x_u = 1 \forall
+    u$ such that $x_u > 1$. This will still yield a valid solution and decrease the cost (notice that this cannot happen in practice, because this would imply that our LP solution is not optimal). \\\\
+    Now we create a new solution:
+    \begin{equation*}
+        \hat x_u(\delta)= \begin{cases}
+            x_u - \delta & u \in \mathcal{V}_+\\
+            x_u + \delta & u \in \mathcal{V}_-\\
+            x_u & \text{otherwise}
+        \end{cases}
+    \end{equation*}
+    We investigate for which value of $\delta$, $\hat x_u(\delta)$ is still a solution. The conditions to be respected are:
+    \begin{enumerate}
+        \item\label{c:1} $\hat x_u(\delta) \geq 0$: therefore $\delta \leq \min_{u\in \mathcal{V}_+}x_u, \delta \geq - \min_{u\in \mathcal{V}_-}x_u$
+        \item\label{c:2} Given an edge $uv$, assuming $u \in \mathcal{V}_+$ and $v \in \mathcal{V}_-$, $\hat x_u(\delta)+\hat x_v(\delta) \geq 1$. This is always true since
+        \begin{equation*}
+            \hat x_u(\delta)+\hat x_v(\delta) = x_u - \cancel{\delta} + x_v + \cancel{\delta} = x_u + x_v \geq 1.
+        \end{equation*}
+        The same holds if $u \in \mathcal{V}_-$ and $v \in \mathcal{V}_+$. 
+        \item\label{c:3} Given an edge $uv$, assuming $u \in \mathcal{V}_+$ and $x_v = 1/2$. Then we have 
+        \begin{align*}
+            \hat x_u(\delta)+\hat x_v(\delta) = x_u - \delta + 1/2 \geq 1
+        \end{align*}
+        Therefore we have that $\delta \leq x_u-1/2$.
+    \end{enumerate}
+    If we think about, all the other scenarios are not problematic. If we have one of the vertices is $0$, then the other one must be at least $1$, therefore it will not be inside $\mathcal{V}_+$ or $\mathcal{V}_-$, and it will not be modified. If we have one of the vertices is $1$, then the only condition for the other vertex is that it cannot drop below $0$, but this has already been encoded in condition \ref{c:1}. Finally, if one of vertices is in $\mathcal{V}_-$, then the other one must either be in $\mathcal{V}_+$ (condition \ref{c:2}) or it's $\geq 1$. It cannot be less than one, otherwise the input solution would not be valid.
+    \\\\
+    Now we notice that $\delta$ can be taken to be $>0$ or $<0$. This is because:
+    \begin{itemize}
+        \item $\min_{u\in \mathcal{V}_+}x_u \geq .5 > 0$
+        \item $x_u-1/2 > 0$ since $x_u \in \mathcal{V}_+,$ and $x_u>1/2$
+        \item $-\min_{u\in \mathcal{V}_-}x_u < 0$
+    \end{itemize}
+    From this we can look at
+    \begin{equation*}
+        D := \partial_\delta \left(\sum_{u\in V} w_ux_u\right) 
+    \end{equation*}
+    But, since the solution is optimal, we know that $D=0$. If, by contradiction, $D\neq 0$, we would have that picking a small $\delta$, either positive or negative, because the cost is linear in $\delta$, we improves the result. But this is impossible by optimality. Hence $D = 0$, hence any $\delta$ which is valid, yields the same cost as the original problem.\\\\
+    Now, we take $\hat \delta$ to be the largest $\delta$ that is still valid. Since it's valid, of course $\hat x_u (\hat\delta)$ is still a solution. This would be our output.\\\\
+    The last thing to show is that $\hat x_u (\hat\delta)$ has one more variable in $\{0,1/2,1\}$. But this is not hard: assume that the dominating condition for $\hat \delta$ is condition \ref{c:1}, in this scenario, there would be $x_u$ that goes to $0$. In the case where the dominating condition is condition \ref{c:3}, then we have that $\hat\delta = x_u -1/2$. This would yield that:
+    \begin{equation*}
+        \hat x_u(\hat\delta) = x_u-(x_u-1/2) = 1/2.
+    \end{equation*}
+    And therefore, we still have one more variable in $\{0,1/2,1\}$. Finally, it's easy to see that all the variables which where already in $\{0,1/2,1\}$ have not been changed.
+\end{document}

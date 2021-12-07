@@ -1,0 +1,29 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=0.9in]{geometry}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{cleveref}
+\usepackage{ifthen}
+\usepackage{rotating}
+
+
+\begin{document}
+\author{Marco Milanta}
+\title{Graded Homework 1, exercise 6}
+\maketitle
+% actually edit those files and create new sections if you need more. 
+
+\input{../macros}
+\section*{Fast Streaming Algorithm for MST (20 points)}
+
+In the exercises of week 5, we discussed a streaming algorithm for computing a minimum spanning tree (MST) in $O(\log^2{n})$ passes. The goal of this question is to show a faster algorithm. Recall that in a $k$-pass streaming algorithm the algorithm is allowed to have $k$ passes over the input graph. 
+
+Design a streaming algorithm for computing the MST of the graph, using $\tilde{O}(n)$ total memory and $O(\log{n} \log{\log{n}})$ passes. The algorithm can use randomization and should work with high probability. You can assume that the weights of the edges in the input graph are non-negative integers in $\{1, 2, \dots, n^{10}\}$.
+
+\paragraph{Hint.} Note that if you want to compute outgoing edges from a small number of connected components, you can sample a large number of edges adjacent to each connected component without violating the memory constraints of the algorithm. Show how to exploit this.
+
+\section*{Solution}
+
+\end{document}

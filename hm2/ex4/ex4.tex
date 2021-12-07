@@ -38,21 +38,21 @@ In the class, it was shown that the number of minimum cuts of any unweighted gra
     \begin{lemma}[Karger's efficency for weighted graphs]\label{l1} Given a minimum cut $\{S,V\setminus S\}$ of size $M$. The probability that the modified Karger's algorithm selects it is at least $\frac{1}{\binom{n}{2}}$
     \end{lemma}
     \begin{proof}
-        Let $\tilde E$ be the set of edges that cut $\{S,V\setminus S\}$. We know that Krager's algorithm runs in no more than $n-2$ steps. We say that the algorithm fails if at any timestap it samples an element from $\tilde E$. Note that if the algorithm doesn't fail it outputs $\{S,V\setminus S\}$. To have more insight about why this is true one can look into Karger's algorithm on the lecture notes chapter 13.
+        Let $\tilde E$ be the set of edges that cut $\{S,V\setminus S\}$. We know that Krager's algorithm runs in no more than $n-2$ steps. We say that the algorithm fails if at any timestep it samples an element from $\tilde E$. Note that if the algorithm doesn't fail it outputs $\{S,V\setminus S\}$. To have more insight about why this is true one can look into Karger's algorithm on the lecture notes chapter 13.
 
         \paragraph*{Failing at step $i$:} We now look at the probability of failing at step $i$ assuming we didn't fail before.
 
-        The probability of failing corresponds to the probability of sampling $e\in \tilde E$ from $E_i$. $E_i$ is the set of edges in the contracted graph, $V_i$ is the set of vertices which have not been contradiction. Note that $\# V_i = n - i + M$. Note that $\sum_{e \in E_i}w(e)\geq \frac{(n-i+1)M}{2}$. To show this we rewrite it as
+        The probability of failing corresponds to the probability of sampling $e\in \tilde E$ from $E_i$. $E_i$ is the set of edges in the contracted graph, $V_i$ is the set of vertices which have not been contradiction. Note that $\# V_i = n - i + 1$. Note that $\sum_{e \in E_i}w(e)\geq \frac{(n-i+1)M}{2}$. To show this we rewrite it as
         \begin{align*}
             \sum_{e \in E_i}w(e) &= \frac{1}{2} \sum_{v \in V_i}\sum_{e \text{ adj. to }v} w(e) \\
             & \geq  \frac{1}{2}\sum_{v \in V_i}M \\
             & = \frac{1}{2}\#V_i M = \frac{1}{2}(n-i+1)M
         \end{align*}
-        Where in the first equality we rewrite the sum looking vertex by vertex at its outgoing edges. In this way, however, we count every vertex twice, therefore we add a $\frac{1}{2}$ factor to compensate. In the first line we use the fact that $\sum_{e \text{ adj. to }v} w(e)$ is just the size of the cut $\{\{e\},V\setminus \{e\}\}$, therefore it must be larger than $M$.
+        Where in the first equality we rewrite the sum looking vertex by vertex at its outgoing edges. In this way, however, we count every vertex twice, therefore we multiply by a $\frac{1}{2}$ factor to compensate. In the first line we use the fact that $\sum_{e \text{ adj. to }v} w(e)$ is just the size of the cut $\{\{e\},V\setminus \{e\}\}$, therefore it must be larger than $M$.
 
         Now, the probability of failing is 
         \begin{align*}
-            \Pr\left(\text{sampling }e \in \tilde E \mid e \in E_i\right) &= \sum_{e \in \tilde E}\Pr\left(\text{sampling }e\mid e \in E_i\right)\\
+            \Pr\left(\text{sampling }e \in \tilde E \mid e \in E_i\right) &\leq \sum_{e \in \tilde E}\Pr\left(\text{sampling }e\mid e \in E_i\right) & \text{union bound}\\
             &= \sum_{e \in \tilde E}\frac{w(e)}{\sum_{e\in E'}w(e)} &\text{modified algoritm}\\
             & \leq \frac{\sum_{e \in \tilde E}w(e)}{\frac{(n-i+1)M}{2}} = \frac{M}{\frac{(n-i+1)M}{2}} = \frac{2}{n-i+1}. &\text{using the result above}
         \end{align*}
@@ -67,7 +67,7 @@ In the class, it was shown that the number of minimum cuts of any unweighted gra
         \end{align*}
         Since the probability of not failing, is the probability to sample $\{S,V\setminus S\}$, we have concluded the proof.
     \end{proof}
-    Finally, it's very easy to prove that there are no more than $\binom{n}{2}$ minimum cuts. By contradiction, assume that there were more than $\binom{n}{2}$ minimum cuts. Each one of them will have a probability of $\frac{1}{\binom{n}{2}}$ to be the output of Karger's algorithm. This means, that the total probability of Karger's to output one of the minimum cuts is 
+    Finally, it's very easy to prove that there are no more than $\binom{n}{2}$ minimum cuts. By contradiction, assume that there were more than $\binom{n}{2}$ minimum cuts. Each one of them will have a probability of at least $\frac{1}{\binom{n}{2}}$ to be the output of Karger's algorithm. This means, that the total probability of Karger's to output one of the minimum cuts is 
     \begin{align*}
         \Pr(\text{sample a min. cut}) &= \sum_{i=1}^{\text{num. of min. cuts}>\binom{n}{2}}\Pr(\text{the $i$-th min. cut is selected}) \\
         &\geq  \sum_{i=1}^{\text{num. of min. cuts}>\binom{n}{2}} \frac{1}{\binom{n}{2}} > 1
@@ -80,7 +80,44 @@ In the class, it was shown that the number of minimum cuts of any unweighted gra
         \end{equation*}
     \end{lemma}
     \begin{proof}
-        
+        Let $v_1,\dots,v_{k-1}$ be $k-1$ different vertices in $V$, the order is not important. Then we define 
+        \begin{equation*}
+            \mathcal{E}_{v_1,\dots,v_{k-1}} := \left\{e \in E \mid \text{ one of the extremes is in }\{v_1,\dots,v_{k-1}\}\right\}.
+        \end{equation*} 
+        One can notice that $\mathcal{E}_{v_1,\dots,v_{k-1}}$ is just the set of edges in the $k$-cut \begin{equation*}
+            \mathcal{C}_{v_1,\dots,v_{k-1}} = \left\{\{v_1\},\dots,\{v_{k-1}\}, V \setminus \bigcup_{i=1}^{k-1}\{v_i\}\right\}.
+        \end{equation*}
+        This is true since each edge which has at least one vertex on $v_1,\dots,v_{k-1}$ is in the cut because $v_1$ only has 1 element, and therefore such edge cannot be fully inside $\{v_1\}$. Furthermore, each of the edges cutting $\mathcal{C}_{v_1,\dots,v_{k-1}}$, must have one of the ending point in $v_1,\dots,v_{k-1}$, since all but one component are just $\{v_1\},\dots,\{v_{k-1}\}$. Finally, we can conclude that
+        \begin{equation*}
+            \#\mathcal{E}_{v_1,\dots,v_{k-1}} \geq M.
+        \end{equation*}
+        This is because $\mathcal{S}$ is the size of the minimum $k$-cut. Now, let's define $\mathcal{S}$ to be the sum of $\#\mathcal{E}_{v_1,\dots,v_{k-1}}$ for all possible way we can take $v_1,\dots,v_{k-1}$. Notice that there are $\binom{n}{k-1}$ ways for us to chose $v_1,\dots,v_{k-1}$. Now, given an edge $e$, we want to count how many vertices choices  $v_1,\dots,v_{k-1}$ will be such that $e$ is adjacent to at least one of $v_1,\dots,v_{k-1}$. Let the number of such choices be $\mathcal{K}_e$. We can compute it by starting with the total number of choices, and subtracting all the ones which don't have any of the two vertices adjacent to $e$. Then we get:
+        \begin{equation*}
+            \mathcal{K}_e = \underbrace{\binom{n}{k-1}}_{\text{total number of choices}}-\underbrace{\binom{n-2}{k-1}}_{\text{illigal choices}}.
+        \end{equation*}
+        The number of ``illegal choices'' is computed with $\binom{n-2}{k-1}$ since there are exactly $n-2$ vertices which are not adjacent o $e$. Furthermore, notice that $\mathcal{K}_e$ doesn't depend on $e$, therefore we rename it $\mathcal{K}$. Now we can rewrite $\mathcal{S}$ as 
+        \begin{align*}
+            \mathcal{S}&= \sum_{\text{all possible permutations}}\#\mathcal{E}_{v_1,\dots,v_{k-1}}\\
+            & = \sum_{\text{all possible permutations}} \left(\sum_{e \text{adj. to one of $v_1,\dots,v_{k-1}$}}1\right)\\
+            &\stackrel{(i)}{=}\sum_{e \in E}\left(\sum_{\text{all possible perm. which have a vertex adj to }e}1 \right)\\
+            &=\sum_{e \in E}\mathcal{K} = \#E\mathcal{K} = \#E\left(\binom{n}{k-1} - \binom{n-2}{k-1}\right).\\
+            & \Rightarrow \#E = \frac{\mathcal{S}}{\binom{n}{k-1} - \binom{n-2}{k-1}}
+        \end{align*}  
+        Where in the sum inversion in $(1)$ we just iterate first through edges, and then through permutations. Then we can also bound $\mathcal{S}$:
+        \begin{equation*}
+            \mathcal{S} = \sum_{\text{all possible permutations}}\#\mathcal{E}_{v_1,\dots,v_{k-1}} \geq \sum_{\text{all possible permutations}}M = \binom{n}{k-1}M.
+        \end{equation*}
+        Putting every together, with some algebra, we get
+        \begin{align*}
+            \# E &\stackrel{(i)}{=} \frac{\mathcal{S}}{\binom{n}{k-1} - \binom{n-2}{k-1}}\\
+            &\stackrel{(ii)}{\geq} \frac{M\binom{n}{k-1}}{\binom{n}{k-1} - \binom{n-2}{k-1}}\\
+            &=\frac{M}{1 - \frac{\binom{n-2}{k-1}}{\binom{n}{k-1}}}\\
+            &=\frac{M}{1-\frac{\frac{(n-2)!}{(n-2-(k-1))!\cancel{(k-1)}!}}{\frac{n!}{(n-(k-1))!\cancel{(k-1)!}}}}\\
+            &=\frac{M}{1-\frac{\cancel{(n-2)!}(n-k+1)(n-k)\cancel{(n-k-1)!}}{n(n-1)\cancel{(n-2)!}\cancel{(n-k-1)!}}}\\
+            &=\frac{M}{1-\frac{n-k+1}{n}\frac{n-k}{n-1}}\\
+            &= \frac{M}{1-\left(1-\frac{k-1}{n}\right)\left(1-\frac{k-1}{n-1}\right)}
+        \end{align*}
+        Where in $(i)$ we use the relationship we have found between $\#E$ and $\mathcal{S}$, and in $(ii)$ we use the bound on $\mathcal{S}$. All the rest is simple algebra. This concludes the proof.
     \end{proof}
     Now, we propose to use the Karger's algorithm but stopping after $n-k$ iterations. The outputs will be a graph with $k$ nodes where each node correspond to a subset of $V$. The $k$ subsets will represent the selected $k$-cut. Now we can prove the key theorem
     \begin{theorem}[Karger's efficency for $k$-cuts]\label{th1} Given a graph $G=(V,E)$ where $\#V = n$. Let 
@@ -93,10 +130,10 @@ In the class, it was shown that the number of minimum cuts of any unweighted gra
         \end{equation*}
     \end{theorem}
     \begin{proof}
-        Let $\tilde E$ be the set of edges that cut $C$. Let $M = \#\tilde E$. We say that the algorithm fails if at some point it picks an edge from $\tilde E$. If it does so, the algorithm will not output $C$. If it does not, then it must output $C$. We divide the proof in two parts:
+        Let $\tilde E$ be the set of edges in the cut $C$. Let $M = \#\tilde E$. We say that the algorithm fails if at some point it picks an edge from $\tilde E$. If it does so, the algorithm will not output $C$. If it does not, then it must output $C$. We divide the proof in two parts:
         \paragraph*{Failing at step $i$:}We now look at the probability of failing at step $i$ given that it has not failed before. Let $G_i = (V_i,E_i)$ the multigraph output of the previous steps. Note that the minimum cut of such graph must be $M$. Furthermore, note that $\#V_i=n-i+1$ (at step 1 $V_1 = V$, and then we take out one node per iteration).
         
-        Thanks to lemma \ref{l2} we are guaranteed that
+        Plugging $G_i$ into lemma \ref{l2} we are guaranteed that
         \begin{equation*}
             \# E_i \geq \frac{M}{1-\left(1-\frac{k-1}{\#V_i}\right)\left(1-\frac{k-1}{\#V_i-1}\right)} = \frac{M}{1-\left(1-\frac{k-1}{n-i+1}\right)\left(1-\frac{k-1}{n-i}\right)}.
         \end{equation*}
@@ -114,7 +151,7 @@ In the class, it was shown that the number of minimum cuts of any unweighted gra
             & = \prod_{i=1}^{n-k}\left(\frac{n-i-k+2}{n-i+1}\right)\left(\frac{n-i-k+1}{n-i}\right) \\
             & = \underbrace{\prod_{i=1}^{n-k}\left(\frac{n-i-k+2}{n-i+1}\right)}_{=A}\underbrace{\prod_{i=1}^{n-k}\left(\frac{n-i-k+1}{n-i}\right)}_{=B}
         \end{align*}
-        Now we look at $A$ and $B$ independently. For $A$ we have:
+        Where in the first line we just used the chain rule of probability. Now we look at $A$ and $B$ independently. For $A$ we have:
         \begin{align*}
             A &= \prod_{i=1}^{n-k}\left(\frac{n-i-k+2}{n-i+1}\right)\\
             &= \frac{n-k+1}{n}\frac{n-k}{n-1}\frac{n-k-1}{n-2}\cdots \frac{n-2k+2}{n-k+1}\cdots \frac{k-1}{2k-4}\cdots \frac{4}{k+3}\frac{3}{k+2}\frac{2}{k+1}\\
@@ -151,4 +188,4 @@ In the class, it was shown that the number of minimum cuts of any unweighted gra
         \text{Number of minimum $k$-cuts} \leq C n^{2k-2} \in O(n^{2k-2})
     \end{equation*} 
 \end{enumerate}
-\end{document}
+\end{document}b

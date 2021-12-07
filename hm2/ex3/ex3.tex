@@ -53,7 +53,7 @@ We next analyze the size and stretch of the spanner.
         \item $\Delta: V \to \N,\;\Delta (v) $ is the degree of node $v$.
         \item $\Delta_{S_1}: V \to \N,\;\Delta_{S_1} (v) $ is the number of nodes which are both at least $\left(1/\epsilon + 2\right)$ away from $v$ and are in $S_1$.
         \item $H := \{v\in V \mid \Delta (v) \geq d_1\}$
-        \item $H_{S_1} := \{v\in S_1 \mid \Delta_2 (v) \geq d_1\}$. This is indeed the set of $s$-heavy vertices.
+        \item $H_{S_1} := \{v\in S_1 \mid \Delta_{S_1} (v) \geq d_1\}$. This is indeed the set of $s$-heavy vertices.
     \end{itemize}
     \paragraph*{Constraints} In this part we will find some condition under which the first two properties are respected with high probability. 
     \begin{enumerate}
@@ -63,7 +63,7 @@ We next analyze the size and stretch of the spanner.
         \begin{equation*}
             \Pr\left(\forall u \text{ neigh. of }v, u \notin S_1\right) \stackrel{(i)}{=} \prod_{u \text{ neigh. of }v} \Pr\left(u \notin S_1\right) \stackrel{(ii)}{=} (1-p_1)^{\Delta(v)} \stackrel{(iii)}{\leq} e^{-p_1\Delta(v)} \stackrel{(iv)}{\leq} e^{-p_1d_1}
         \end{equation*}
-        Where $(i)$ follows from the independence sampling that determinate weather a vertex is or is not in $S_1$. $(ii)$ follows from the fact that the before mentioned sampling is uniform with probability $p_1$. $(iii)$ is a well known bound that can be derived from the fact that $1-p_1 \leq e^{-p_1}$. Finally, $(iv)$ simply follows from the fact that we are assuming $v \in H$, therefore $\Delta(v)\geq d_1$.
+        Where $(i)$ follows from the independence sampling that determinate wether a vertex is or is not in $S_1$. $(ii)$ follows from the fact that the before mentioned sampling is uniformly at random with probability $p_1$. $(iii)$ is a well known bound that can be derived from the fact that $1-p_1 \leq e^{-p_1}$. Finally, $(iv)$ simply follows from the fact that we are assuming $v \in H$, therefore $\Delta(v)\geq d_1$.
 
         Now, we want this probability to go to $0$ as $n$ increases. To do so we pick $p_1 \geq \frac{1}{d_1}k\log n$. This yields 
         \begin{equation*}
@@ -133,7 +133,8 @@ We next analyze the size and stretch of the spanner.
     \begin{equation*}
         \mathcal{S} = nd_1 + n + n^2\frac{1}{d_1d_2}\delta ^2 + n\frac{d_2}{d_1}\delta \eta.
     \end{equation*}
-    To compute the minimum we notice that fixing $d_1$, we can write $\mathcal{S} = ad_1 + b\frac{1}{d_1} + c$ for some positive values of $a,b$ and $c$. It's easy to see that $\mathcal{S}$ is convex in $d_2$ and only has one optimum. Furthermore, $\mathcal{S}$ is differentiable. We then set $\partial_{d_2}\mathcal{S} = 0$.
+    
+    Now we notice that $\mathcal{S}$ as a function of $d_2$ is simply $ad_2=b\frac{1}{d_2}=c$ for some $a,b$ and $c$ positive and that don't depend on $d_2$. Such simple function is convex and only has one optimum. Furthermore, $\mathcal{S}$ is differentiable. Then, to find the minimum we set $\partial_{d_2}\mathcal{S} = 0$.
     \begin{align*}
         \partial_{d_2}\mathcal{S} &= 0\\
         -\frac{1}{d_2^2}\frac{n^{\cancel{2}}}{\cancel{d_1}}\delta^{\cancel{2}} + \cancel{n}\frac{1}{\cancel{d_1}}\cancel{\delta}\eta&=0\\
@@ -170,7 +171,7 @@ We next analyze the size and stretch of the spanner.
     With such parameters, the algorithm works with high probability and achieves a spanner of expected size in the order of $\tilde O \left(n^{\frac{5}{4}}\epsilon^{-\frac{1}{4}}\right)$.
     \item For the proof of this point we take an arbitrary couple of vertices $u,v \in V$, and we show that $\tilde d(u,v) \leq (1+4\epsilon)d(u,v) + \Theta(1/\epsilon)$. Where $\tilde d$ is the distance in the spanner, $d$ is the distance in the original graph. We have two different scenarios.
     \paragraph{Case 1:} (There is a shortest path from $u$ to $v$ that contains one heavy vertex or more)
-    We remind the definition of heavy vertex. A heavy vertex is a vertex in $H$ that has a neighbor in $H_{S_1}$. Let $w$ be a heavy vertex in a shortest path from $u$ to $v$. Let then $w'$ be one of its neighbor in $H_{S_1}$. Let then $w'' \in S_2$ be a vertex $(2+1/\epsilon)$ away from $w'$: such vertex exists w.h.p. thanks to the second constraint.
+    We remind the definition of heavy vertex. A heavy vertex is a vertex in $H$ that has a neighbor in $H_{S_1}$. Let $w$ be a heavy vertex in a shortest path from $u$ to $v$. Let then $w'$ be one of the neighbors of $w$ which is in $H_{S_1}$. Let then $w'' \in S_2$ be a vertex $(2+1/\epsilon)$ away from $w'$: such vertex exists w.h.p. thanks to the second constraint.
 
     We now bound the distance from $u-w''$ and $v-w''$ in the original graph. Thanks to the triangular inequality,
     \begin{equation*}
@@ -178,7 +179,7 @@ We next analyze the size and stretch of the spanner.
     \end{equation*}
     Where $(i)$ follows from the fact that $w$ and $w'$ are neighbors, and $w'$ and $w''$ are no more than $2+1/\epsilon$ away. In the same exact way we can show that $d(v,w'') \leq d(v,w) + 3 + \frac{1}{\epsilon}$. 
 
-    Now, since $w''\in S_2$. The shortest path from $w''$ to each other vertex is included in the spanner. Let's then consider the path $P$ on the spanner that starts from $u$, goes to (in the optimal way) $w''$, and ends in $v$ (in the optimal way). Since the shortest paths from $w''$ to $u$ and $v$ are included in the spanner, $P$ is a path in the spanner. Now, let $l(P)$ be the length of $P$:
+    Now, since $w''\in S_2$. The shortest path from $w''$ to each other vertex is included in the spanner. Let's then consider the path $P$ on the spanner that starts from $u$, goes to (in the optimal way on the spanner) $w''$, and ends in $v$ (in the optimal way on the spanner). Since the shortest paths from $w''$ to $u$ and $v$ are included in the spanner, $P$ is a path in the spanner. Now, let $l(P)$ be the length of $P$:
     \begin{equation*}
         l(P) = d(u,w'') + d(v,w'') \leq d(u,w) + d(v,w) + 6 + \frac{2}{\epsilon}
     \end{equation*}
@@ -243,28 +244,28 @@ We next analyze the size and stretch of the spanner.
     \begin{equation*}
         N =\left\lceil\frac{d(u,v)}{\lfloor 1/\epsilon \rfloor}\right\rceil \leq \left\lceil\frac{d(u,v)}{1/\epsilon - 1}\right\rceil \leq \frac{d(u,v)}{1/\epsilon - 1} + 1.
     \end{equation*}
-    Now, assuming $\epsilon$ is small, in particular smaller than $\frac{1}{\sqrt{d(u,v)}}$ and smaller than $0.5$, we have
+    Now, assuming $\epsilon$ is small, in particular smaller than $\frac{1}{\sqrt{\text{diam}(G)}}$ and smaller than $0.5$, we have
     \begin{align*}
         N &\leq \frac{d(u,v)}{1/\epsilon - 1} + 1\\
           & = \frac{d(u,v)\epsilon}{1 - \epsilon} + 1\\
           &=  d(u,v)\epsilon \frac{1-\epsilon+\epsilon}{1-\epsilon} + 1 \\
           &= d(u,v)\epsilon \left(1+\frac{\epsilon}{1-\epsilon}\right) + 1\\
           &= d(u,v)\epsilon + 1 + \frac{ d(u,v)\epsilon^2}{1-\epsilon}\\
-          &\leq d(u,v)\epsilon + 1 + \frac{ \cancel{d(u,v)}\cancel{\left(\frac{1}{\sqrt{d(u,v)}}\right)^2}}{1-\epsilon}\\
+          &\leq d(u,v)\epsilon + 1 + \frac{ \cancel{\text{diam}(G)}\cancel{\left(\frac{1}{\sqrt{\text{diam}(G)}}\right)^2}}{1-\epsilon}&\text{ since $d(u,v) \leq \text{diam}(G)$ and }\epsilon \leq \frac{1}{\sqrt{\text{diam}(G)}}\\
           & \leq d(u,v)\epsilon + 1 + \frac{1}{1-0.5} = d(u,v)\epsilon + 3.
     \end{align*}
     Now, let $u_i$ be the starter point of the $i$-th segment and the end point of the $i-1$-th segment. $u_{N+1} = v$. We have that
     \begin{equation*}
-        d(u,v) = \sum_{i = 1}^n d(u_i, u_{i+1}).
+        d(u,v) = \sum_{i = 1}^N d(u_i, u_{i+1}).
     \end{equation*}
     The equality follows since $u_i$ are part of an optimal path. Now we can use lemma 2 and we get
     \begin{equation*}
-        d(u,v) = \sum_{i = 1}^n d(u_i, u_{i+1}) \geq \sum_{i = 1}^n (\tilde d(u_i, u_{i+1})-4) = \sum_{i = 1}^n \tilde d(u_i, u_{i+1}) - 4N.
+        d(u,v) \stackrel{(i)}{=} \sum_{i = 1}^N d(u_i, u_{i+1}) \geq \sum_{i = 1}^N (\tilde d(u_i, u_{i+1})-4) \stackrel{(ii)}{=} \sum_{i = 1}^N \tilde d(u_i, u_{i+1}) - 4N.
     \end{equation*}
-    By looking at it right to left we get
-    \begin{equation*}
-        d(u_i, u_{i+1}) \leq d(u,v) + 4N \leq d(u,v) + 4\epsilon d(u,v) + 3 \leq (1+4\epsilon)d(u,v) + 3.
-    \end{equation*}
-    Which concludes the proof.
+    Where in $(i)$ we use the optimality of the path and in $(ii)$ we use lemma 2. Finally, we can write
+    \begin{equation}\label{i1}
+        \tilde d(u, v) \stackrel{(i)}{\leq} \sum_{i = 1}^N \tilde d(u_i, u_{i+1}) \stackrel{(ii)}{\leq} d(u,v) + 4N \stackrel{(iii)}{\leq} d(u,v) + 4\epsilon d(u,v) + 12 \leq (1+4\epsilon)d(u,v) + 12.
+    \end{equation}
+    Where in $(i)$ we use the triangular inequality, in $(ii)$ we use the inequality \ref{i1} read right to left, and in $(iii)$ we use the bound we found for $N$. This yields a $(1+4\epsilon)$ multiplicative stretch, and a $\Theta\left(\frac{1}{\epsilon}\right)$ additive stretch. Hence, we have concluded the proof. The added condition $\frac{1}{\sqrt{\text{diam}(G)}}$ is not an issue since the spanner must work for small values of $\epsilon$.
 \end{enumerate}
     \end{document}

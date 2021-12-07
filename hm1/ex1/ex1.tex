@@ -1,0 +1,56 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=0.9in]{geometry}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{cleveref}
+\usepackage{ifthen}
+\usepackage{rotating}
+
+
+\begin{document}
+\author{Marco Milanta}
+\title{Graded Homework 1, exercise 1}
+\maketitle
+% actually edit those files and create new sections if you need more. 
+
+\input{../macros}
+\section*{Routing Messages in a Cycle (15 points)}Consider $n$ nodes numbered from $0$ to $n-1$ that are arranged clockwise around a circle and there is an edge between node $i$ and node $i+1\pmod{n}$ for each $i \in \left\{0,\dots, n-1\right\}$. There are $m$ messages, and $m$ pairs of vertices $\{u_i,v_i\}$ such that the $i$-th message should be routed from $u_i$ to $v_i$ for $i=1,..,m$. We have to decide for each message whether to route it clockwise or counterclockwise. The load of an edge is the number of messages that are sent over it. Provide a polynomial-time 2-approximation algorithm that minimizes the maximum load.
+\section*{Solution}
+We start by writing the problem as an Integer Linear Programming. We then relax the problem to a simple Linear Programming which is solvable in polynomial time. Finally, we round the solution to integers, showing that this yields a 2-approximation.
+\subsection*{Integer Linear Programming}
+We us the variables
+\begin{align*}
+    x_{i,j} &\in \{0,1\}, \qquad \forall i \in 1:n,\; \forall j \in 1:m\\
+    \lambda &\in \R.
+\end{align*}
+Where by $1:n$ we simply mean $1,\dots,n$. Here the interpretation of the variable is: $x_{i,j} = 1$ if the message $j$ passes through the edge $\{i,\mod_n(i+1)\}$, $0$ otherwise. The variable $\lambda$ will be our maximum number of messages for any edge. Those variables, will be subject to the constraints:
+\begin{align}
+    x_{i-1,j} - x_{i,j} &= 0&\forall j \in 1:m,\; i \notin \{u_i,v_j\}\label{cond1}\\
+    x_{i-1,j} + x_{i,j} &= 1&\forall j \in 1:m,\; i \in \{u_i,v_j\}\label{cond2}\\
+    \sum_{j=1}^mx_{i,j} &\leq \lambda & \forall i \in 1:n
+\end{align}
+And the objective is to minimize $\lambda$. Note that this must be a solution. To visualize this we fix a message $j$, and look at $x_{i,j}$. I would like to notice that all the edges that go clockwise from $u_jy$ to $v_j$ will have the same value of $x_{i,j}$ thanks to condition \ref{cond1}. The same holds for counterclockwise edges. Finally, they cannot be $0$s both in the clockwise and counterclockwise direction. This is because of condition \ref{cond2}. Therefore, we have that the constraints yield a valid solution.
+\subsection*{Relaxed problem}
+Here we just take the problem before, but we only require $x_{i,j} \in [0,1]$. The new interpretation of the problem is that a portion of the massage goes clockwise, and another portion goes counterclockwise, where the two portions sums up to 1. The nice thing is that we can find the optimal solution in polynomial time using linear programming. 
+
+Let's call $\lambda(LP)$ the minimum flow of the relaxed problem, and $\lambda(OPT)$ the optimal solution of the true problem. I argue that
+\begin{equation*}
+    \lambda(LP) \leq \lambda(OPT).
+\end{equation*}
+This simply follows from the fact that the relaxed problem is indeed relaxed, therefore the optimal solution of the original problem is also a solution for the relaxed version. However, the relaxed one might have even better solutions.
+\subsection*{Rounding}
+We now round the results of the relaxed problem as follows:
+\begin{equation*}
+    y_{i,j}=\begin{cases}
+        1&x_{i,j}\geq .5\\
+        0&x_{i,j}\leq .5\\
+    \end{cases}
+\end{equation*}
+Let's call the minimum flow for this problem $\lambda(RP)$. It's easy to show, that this new problem yields at most a 2-approximation of the optimal flow
+\begin{equation*}
+    \lambda(RP) = \max_i \sum_{j=1}^my_{i,j} \leq \max_i \sum_{j=1}^m2x_{i,j}\leq 2\lambda(LP) \leq 2\lambda(OPT).
+\end{equation*}
+What's left to show is that $y_{i,j}$ describe a valid solution. It's easy to see that if the partial clockwise flow $x_{i,j}$ for a message $j$ is $\geq .5$, then, it will become all $1$s in the rounded solution. The same holds for counterclockwise. Since the sum of the partial messages is $1$, we have that at least one between the clockwise and counterclockwise paths, is selected by the rounding solution. In the case where they both weight exactly $.5$, we actually are picking both the clockwise and counterclockwise paths. In this particular case, by, for instance, picking only the clockwise path, we get a valid solution without increasing the maximum flow.
+\end{document}
