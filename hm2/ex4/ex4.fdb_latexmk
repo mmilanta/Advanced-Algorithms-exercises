@@ -1,7 +1,7 @@
 # Fdb version 3
-["pdflatex"] 1638899762 "c:/Users/andre/AdvancedAlgo/hm2/ex4/ex4.tex" "ex4.pdf" "ex4" 1638899763
+["pdflatex"] 1638900336 "c:/Users/andre/AdvancedAlgo/hm2/ex4/ex4.tex" "ex4.pdf" "ex4" 1638900338
   "../macros.tex" 1638824690 964 b022abdb10db0c3a48abd96370e2675a ""
-  "c:/Users/andre/AdvancedAlgo/hm2/ex4/ex4.tex" 1638899761 17073 f66d2f831878ef24fa65d9b56faf6bde ""
+  "c:/Users/andre/AdvancedAlgo/hm2/ex4/ex4.tex" 1638900005 17141 c6dbd4c35a91ba332e3afe01fbad90a6 ""
   "d:/ProgramFiles/texlive/2021/texmf-dist/fonts/map/fontname/texfonts.map" 1638826501 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "d:/ProgramFiles/texlive/2021/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1638825072 1004 54797486969f23fa377b128694d548df ""
   "d:/ProgramFiles/texlive/2021/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1638825072 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -78,8 +78,8 @@
   "d:/ProgramFiles/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1638829676 4414298 32591e870d58e498cc44a8d2a635e643 ""
   "d:/ProgramFiles/texlive/2021/texmf-var/web2c/pdftex/pdflatex.fmt" 1638829835 2820180 04c7219578f791ae7dace071d3c54e92 ""
   "d:/ProgramFiles/texlive/2021/texmf.cnf" 1638829655 713 e69b156964470283e0530f5060668171 ""
-  "ex4.aux" 1638899763 243 b19351aa4af7459d3772768a71f8f748 "pdflatex"
-  "ex4.tex" 1638899761 17073 f66d2f831878ef24fa65d9b56faf6bde ""
+  "ex4.aux" 1638900337 243 b19351aa4af7459d3772768a71f8f748 "pdflatex"
+  "ex4.tex" 1638900005 17141 c6dbd4c35a91ba332e3afe01fbad90a6 ""
   (generated)
   "ex4.aux"
   "ex4.log"

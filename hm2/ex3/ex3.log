@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2021.12.6)  7 DEC 2021 18:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2021.12.6)  7 DEC 2021 19:05
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -222,11 +222,11 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
  (d:/ProgramFiles/texlive/2021/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-LaTeX Font Info:    Trying to load font information for U+msa on input line 16.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 17.
  (d:/ProgramFiles/texlive/2021/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 16.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 17.
  (d:/ProgramFiles/texlive/2021/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) (../macros.tex
@@ -238,22 +238,22 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
  [1
 
 {d:/ProgramFiles/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-Overfull \hbox (7.41772pt too wide) detected at line 65
+Overfull \hbox (7.41772pt too wide) detected at line 67
 [] [] [] [] [] [] [] \OT1/cmr/m/n/10.95 (1 \OMS/cmsy/m/n/10.95 ^^@ \OML/cmm/m/it/10.95 p[]\OT1/cmr/m/n/10.95 )[] [] \OML/cmm/m/it/10.95 e[] [] e[]
  []
 
 
-Overfull \hbox (37.2066pt too wide) detected at line 95
+Overfull \hbox (37.2066pt too wide) detected at line 97
 []
  []
 
 [2]
-Overfull \hbox (6.90652pt too wide) in paragraph at lines 121--122
+Overfull \hbox (6.90652pt too wide) in paragraph at lines 123--124
 []\OT1/cmr/m/n/10.95 Each one of those el-e-ments has no more than $\OML/cmm/m/it/10.95 d[]$ \OT1/cmr/m/n/10.95 el-e-ments in it's $[]$-neighborhood.
  []
 
 [3] [4] [5]
-Overfull \hbox (13.47499pt too wide) detected at line 235
+Overfull \hbox (13.47499pt too wide) detected at line 237
 []
  []
 
@@ -267,7 +267,7 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  70i,20n,76p,586b,375s stack positions out of 5000i,500n,10000p,200000b,80000s
 {d:/ProgramFiles/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}<d:/ProgramFiles/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><d:/ProgramFiles/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><d:/ProgramFiles/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><d:/ProgramFiles/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><d:/ProgramFiles/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb><d:/ProgramFiles/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><d:/ProgramFiles/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><d:/ProgramFiles/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><d:/ProgramFiles/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb><d:/ProgramFiles/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><d:/ProgramFiles/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><d:/ProgramFiles/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/ProgramFiles/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><d:/ProgramFiles/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><d:/ProgramFiles/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/latxfont/line10.pfb><d:/ProgramFiles/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><d:/ProgramFiles/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb>
-Output written on ex3.pdf (7 pages, 214765 bytes).
+Output written on ex3.pdf (7 pages, 215011 bytes).
 PDF statistics:
  114 PDF objects out of 1000 (max. 8388607)
  70 compressed objects within 1 object stream

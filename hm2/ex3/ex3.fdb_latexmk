@@ -1,7 +1,7 @@
 # Fdb version 3
-["pdflatex"] 1638899327 "c:/Users/andre/AdvancedAlgo/hm2/ex3/ex3.tex" "ex3.pdf" "ex3" 1638899328
+["pdflatex"] 1638900338 "c:/Users/andre/AdvancedAlgo/hm2/ex3/ex3.tex" "ex3.pdf" "ex3" 1638900340
   "../macros.tex" 1638824690 964 b022abdb10db0c3a48abd96370e2675a ""
-  "c:/Users/andre/AdvancedAlgo/hm2/ex3/ex3.tex" 1638899326 22981 174fca43050773b486204180441983c2 ""
+  "c:/Users/andre/AdvancedAlgo/hm2/ex3/ex3.tex" 1638900335 23037 21a5be67915594f1c294d28b92640bad ""
   "d:/ProgramFiles/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1638825718 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "d:/ProgramFiles/texlive/2021/texmf-dist/fonts/map/fontname/texfonts.map" 1638826501 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "d:/ProgramFiles/texlive/2021/texmf-dist/fonts/tfm/jknappen/ec/tcrm1095.tfm" 1638826164 1536 02c06700a42be0f5a28664c7273f82e7 ""
@@ -78,8 +78,8 @@
   "d:/ProgramFiles/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1638829676 4414298 32591e870d58e498cc44a8d2a635e643 ""
   "d:/ProgramFiles/texlive/2021/texmf-var/web2c/pdftex/pdflatex.fmt" 1638829835 2820180 04c7219578f791ae7dace071d3c54e92 ""
   "d:/ProgramFiles/texlive/2021/texmf.cnf" 1638829655 713 e69b156964470283e0530f5060668171 ""
-  "ex3.aux" 1638899328 409 058eaafcc22fd384b4efaffc86941fe0 "pdflatex"
-  "ex3.tex" 1638899326 22981 174fca43050773b486204180441983c2 ""
+  "ex3.aux" 1638900340 409 058eaafcc22fd384b4efaffc86941fe0 "pdflatex"
+  "ex3.tex" 1638900335 23037 21a5be67915594f1c294d28b92640bad ""
   (generated)
   "ex3.aux"
   "ex3.log"
