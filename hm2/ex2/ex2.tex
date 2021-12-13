@@ -22,6 +22,7 @@
 % actually edit those files and create new sections if you need more. 
 
 \input{../macros}
+For this exercise I exchanged ideas with Jan Tempus.
 \section*{Minimizing Cost (25 points)}
 Given a stream of $n$ elements $x_1, \cdots, x_n \in \{1,\cdots,n\}$ all distinct (i.e., the input is a permutation). We have to choose $x_i, x_j$ with $j\geq i$ on arrival, meaning that when an element arrives, we must immediately decide if we include it in one of the two elements. The cost function is given as $\frac{1}{x_j-x_i+1}$. We would like to minimize this cost. (Note that any sensible strategy will have $\frac{1}{x_j-x_i+1} < 1$ as we can choose $i=j=n$.)
 \begin{enumerate}
