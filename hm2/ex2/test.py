@@ -1,6 +1,7 @@
 
 from itertools import permutations
 import numpy as np
+import matplotlib.pylab as plt
 import math
 
 def test():
@@ -47,6 +48,15 @@ def c(input):
         if out >= np.sqrt(n):
             return out
     return 1
+def plot(n):
+    x1 = n - np.arange(n) - 1
+    x2 = n - np.arange(n) - 1
+    ns = int(np.floor(np.sqrt(n)))
+    x1[ns] = n
+    x2[-1] = n
+    plt.plot(np.arange(n) +1,x1, '--o')
+    plt.plot(np.arange(n) +1,x2, '--*')
+    plt.show()
 
 
-full_test(8)
+plot(64)
