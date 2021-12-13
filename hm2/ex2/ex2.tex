@@ -187,9 +187,9 @@ Given a stream of $n$ elements $x_1, \cdots, x_n \in \{1,\cdots,n\}$ all distinc
     \end{proof}
     Now, the result simply follows from Yao's principle,
     \begin{equation*}
-        \max_{x \in \X} \frac{\E_{\text{a}\sim \mathcal{A}}[a(x)]}{OPT(x)} \stackrel{(i)}{=} \max_{x \in \X} \E_{\text{a}\sim \mathcal{A}} \left[\frac{a(x)}{OPT(x)}\right] \stackrel{(ii)}{\geq} \min_{\Alg \in \text{det. algos}}\E_{x \sim \mathcal{P}}\left[\frac{\Alg(x)}{OPT(x)}\right] \stackrel{(iii)}{\geq} \frac{1}{2}(\sqrt{n} + 1) \in \Omega(\sqrt{n})
+        \max_{x \in \X} \frac{\E_{a\sim \mathcal{A}}[a(x)]}{OPT(x)} \stackrel{(i)}{=} \max_{x \in \X} \E_{a\sim \mathcal{A}} \left[\frac{a(x)}{OPT(x)}\right] \stackrel{(ii)}{\geq} \min_{\Alg \in \text{det. algos}}\E_{x \sim \mathcal{P}}\left[\frac{\Alg(x)}{OPT(x)}\right] \stackrel{(iii)}{\geq} \frac{1}{2}(\sqrt{n} + 1) \in \Omega(\sqrt{n})
     \end{equation*}
-    Where $(i)$ follows from linearity of expectation, $(ii)$ is a direct application of Yao's principle, and $(iii)$ follows from Lemma \ref{lem1}. 
+    Where $(i)$ follows from linearity of expectation, $(ii)$ is a direct application of Yao's principle using $c(a,x) =\frac{a(x)}{OPT(x)}$. $(iii)$ follows from Lemma \ref{lem1}. 
     Being the first term of the last equation the competitive ratio of an arbitrary randomized algorithm $\mathcal A$, we have showed that it is in $\Omega\left(\sqrt{n}\right)$, and therefore, we have concluded the proof.
 \end{enumerate}
 \end{document}
