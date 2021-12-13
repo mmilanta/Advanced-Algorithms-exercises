@@ -1,5 +1,5 @@
 # Advanced Algorithms exercises
-In this repo I stored all of my solutions (with latex code) to the compulsory exercises for the Advanced Algorithm class held by Mohsen Ghaffari at ETHz in autumn 2021. The exer! Easy to state and hard to solve.
+In this repo I stored all of my solutions (with latex code) to the compulsory exercises for the Advanced Algorithm class held by Mohsen Ghaffari at ETHz in autumn 2021. The exercise were great! Easy to state and hard to solve.
 
 The exercises are grouped in two homeworks
 ## Homework 1
