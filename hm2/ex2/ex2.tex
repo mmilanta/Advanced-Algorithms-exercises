@@ -106,7 +106,9 @@ Given a stream of $n$ elements $x_1, \cdots, x_n \in \{1,\cdots,n\}$ all distinc
             \end{equation*}
             \paragraph*{Conclusion:}We have shown that independently of which part of the algorithm triggers, we can guarantee that it outputs a $\sqrt{n}$-competitive solution
         \end{proof}
-    \item Let $OPT(x)$ be the optimal $\mathtt{cost}$ achievable given $x\in \X$, where $\X$ is the space of permutation of $\{1,\dots,n\}$. Let's define a distribution over inputs $\mathcal{P}$ indexed by a discrete density $p:\X \to [0,1]$:
+    \item Let $OPT(x)$ be the optimal $\mathtt{cost}$ achievable given $x\in \X$, where $\X$ is the space of permutation of $\{1,\dots,n\}$. More in general, given an algorithm $\Alg$, by $\Alg(x)$ we mean the cost that the algorithm achieves on the input $x$.
+    
+    Let's define a distribution over inputs $\mathcal{P}$ indexed by a discrete density $p:\X \to [0,1]$:
     \begin{equation}\label{Pdef}
         p(x) = \begin{cases}
             \frac{1}{2}& x = \bar{x}_1\\
@@ -185,11 +187,25 @@ Given a stream of $n$ elements $x_1, \cdots, x_n \in \{1,\cdots,n\}$ all distinc
     \end{equation*}
     Finally, this concludes the proof also for \textbf{Group 2}. It's easy to see that any algorithm is either $\Alg_1,\Alg_2$, inside \textbf{Group 1} or inside \textbf{Group 2}, hence we have concluded the proof.
     \end{proof}
-    Now, the result simply follows from Yao's principle,
+    Finally, we can show that any randomized algorithm cannot have a competitive ratio better than $\frac{1}{2}\left(1+\sqrt{n}\right)$, which indeed is $\Omega\left(\sqrt{n}\right)$.
+
+    To use Yao's lemma, we define a new cost function:
     \begin{equation*}
-        \max_{x \in \X} \frac{\E_{a\sim \mathcal{A}}[a(x)]}{OPT(x)} \stackrel{(i)}{=} \max_{x \in \X} \E_{a\sim \mathcal{A}} \left[\frac{a(x)}{OPT(x)}\right] \stackrel{(ii)}{\geq} \min_{\Alg \in \text{det. algos}}\E_{x \sim \mathcal{P}}\left[\frac{\Alg(x)}{OPT(x)}\right] \stackrel{(iii)}{\geq} \frac{1}{2}(\sqrt{n} + 1) \in \Omega(\sqrt{n})
+            c(a,x) := \frac{a(x)}{OPT(x)}\qquad \text{for algorithm $a$}    
     \end{equation*}
-    Where $(i)$ follows from linearity of expectation, $(ii)$ is a direct application of Yao's principle using $c(a,x) =\frac{a(x)}{OPT(x)}$. $(iii)$ follows from Lemma \ref{lem1}. 
-    Being the first term of the last equation the competitive ratio of an arbitrary randomized algorithm $\mathcal A$, we have showed that it is in $\Omega\left(\sqrt{n}\right)$, and therefore, we have concluded the proof.
+    Now, the Yao's lemma just states that for any randomize algorithm $A$, seen as a distribution over deterministic algorithms, we have that:
+    \begin{align*}
+        \max_{x\in \X} \E_{a\sim A }\left[c(a,x)\right] &\geq \min_{\Alg \text{ det. alg.}}\E_{x\sim \mathcal{P}}\left[c(\Alg,x)\right]\\
+        &\Downarrow\\
+        \max_{x \in \X} \E_{a\sim \mathcal{A}} \left[\frac{a(x)}{OPT(x)}\right] &\geq \min_{\Alg \in \text{det. alg.}}\E_{x \sim \mathcal{P}}\left[\frac{\Alg(x)}{OPT(x)}\right] 
+    \end{align*}
+
+    Now, let $A$ be any randomized algorithm, then we have that
+    \begin{equation*}
+        \max_{x \in \X} \frac{\E_{a\sim \mathcal{A}}[a(x)]}{OPT(x)} \stackrel{(i)}{=} \max_{x \in \X} \E_{a\sim \mathcal{A}} \left[\frac{a(x)}{OPT(x)}\right] \stackrel{(ii)}{\geq} \min_{\Alg \in \text{det. alg.}}\E_{x \sim \mathcal{P}}\left[\frac{\Alg(x)}{OPT(x)}\right] \stackrel{(iii)}{\geq} \frac{1}{2}(\sqrt{n} + 1) \in \Omega(\sqrt{n})
+    \end{equation*}
+    Where $(i)$ follows from linearity of expectation, in $(ii)$ we use equation above, and $(iii)$ follows from Lemma \ref{lem1}. 
+
+    Being the first term of the last equation the competitive ratio of an arbitrary randomized algorithm $A$, we have showed that it is in $\Omega\left(\sqrt{n}\right)$, and therefore, we have concluded the proof.
 \end{enumerate}
 \end{document}
